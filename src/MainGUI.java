@@ -12,8 +12,12 @@ public class MainGUI extends javax.swing.JFrame {
     /**
      * Creates new form MainGUI
      */
+    private Control cnt = null;
+
     public MainGUI() {
         initComponents();
+        cnt = new Control(this);
+
     }
 
     /**
@@ -26,24 +30,119 @@ public class MainGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         canvas1 = new java.awt.Canvas();
+        btn_Start = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBounds(new java.awt.Rectangle(0, 0, 0, 0));
+        setMinimumSize(new java.awt.Dimension(625, 520));
+        setPreferredSize(new java.awt.Dimension(625, 520));
+        setResizable(false);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                formKeyTyped(evt);
+            }
+        });
+
+        canvas1.setBackground(new java.awt.Color(192, 192, 192));
+        canvas1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        canvas1.setMinimumSize(new java.awt.Dimension(500, 500));
+        canvas1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                canvas1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                canvas1FocusLost(evt);
+            }
+        });
+        canvas1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                canvas1KeyTyped(evt);
+            }
+        });
+
+        btn_Start.setText("Neues Spiel");
+        btn_Start.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_StartActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("jButton1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 30, Short.MAX_VALUE)
-                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_Start, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(canvas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btn_Start)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StartActionPerformed
+        cnt.neuesSpiel();
+        //cnt.getZeichenflaeche().fillRect(0, 470, 500, 20);
+    }//GEN-LAST:event_btn_StartActionPerformed
+
+    private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
+        System.out.println(evt.getKeyChar());
+        //cnt.moveSchlange();
+    }//GEN-LAST:event_formKeyTyped
+
+    private void canvas1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_canvas1KeyTyped
+        System.out.println(evt.getKeyChar());
+        Direction dir = null;
+        char eing = evt.getKeyChar();
+        eing = Character.toLowerCase(eing);
+        System.out.println(eing);
+        switch (eing) {
+            case 'w':
+                dir = Direction.HOCH;
+                break;
+            case 's':
+                dir = Direction.RUNTER;
+                break;
+            case 'a':
+                dir = Direction.LINKS;
+                break;
+            case 'd':
+                dir = Direction.RECHTS;
+                break;
+            default:
+                break;
+        }
+        if (dir != null) {
+            cnt.changeDirection(dir);
+        }
+    }//GEN-LAST:event_canvas1KeyTyped
+
+    private void canvas1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_canvas1FocusGained
+        cnt.start();
+    }//GEN-LAST:event_canvas1FocusGained
+
+    private void canvas1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_canvas1FocusLost
+        cnt.pause();
+    }//GEN-LAST:event_canvas1FocusLost
 
     /**
      * @param args the command line arguments
@@ -56,7 +155,7 @@ public class MainGUI extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -79,11 +178,13 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
     }
-    public java.awt.Canvas getCanvas(){
+
+    public java.awt.Canvas getCanvas() {
         return canvas1;
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Start;
     private java.awt.Canvas canvas1;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
