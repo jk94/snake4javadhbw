@@ -18,6 +18,7 @@ public class Control {
     int pixelgroese;
     Timer timer = null;
     
+    
     public Control(MainGUI mGUI) {
         this.mgui = mGUI;
         this.zeichenflaeche = this.mgui.getCanvas().getGraphics();

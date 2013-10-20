@@ -86,6 +86,7 @@ public class Schlange {
 
     private void addGefressenesZiel(Feld ziel) {
         this.gefresseneZieleZumAnhaengen.add(ziel);
+        
     }
 
     public void zeichneSchlange(Graphics zfl) {
