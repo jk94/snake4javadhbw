@@ -22,10 +22,11 @@ public class Punkte {
         TimerStop();
         zielZaehler++;
         punktezaehler += PunkteBerechnen();
+        timecounter = 0;
         tmr = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-            zaehleZeit();
+                zaehleZeit();
             }
         });
         TimerStart();
@@ -49,13 +50,13 @@ public class Punkte {
 
     private int PunkteBerechnen() {
         int erg;
-        int multiplikator = Integer.parseInt("" + (timecounter/1000)) - 11;
-        if(multiplikator>=0){
+        int multiplikator = Integer.parseInt("" + (timecounter / 1000)) - 7;
+        if (multiplikator >= 0) {
             multiplikator = 1;
-        }else{
+        } else {
             multiplikator = multiplikator * -1;
         }
-        erg = zielZaehler * multiplikator;
+        erg = 1 + (zielZaehler * multiplikator);
         return erg;
     }
 

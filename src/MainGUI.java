@@ -31,7 +31,8 @@ public class MainGUI extends javax.swing.JFrame {
 
         canvas1 = new java.awt.Canvas();
         btn_Start = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        lbl_Punkte = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -68,7 +69,7 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
+        jLabel1.setText("Punkte:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,7 +79,10 @@ public class MainGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_Start, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lbl_Punkte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -92,7 +96,9 @@ public class MainGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btn_Start)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_Punkte, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -105,16 +111,14 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_StartActionPerformed
 
     private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
-        System.out.println(evt.getKeyChar());
-        //cnt.moveSchlange();
     }//GEN-LAST:event_formKeyTyped
 
     private void canvas1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_canvas1KeyTyped
-        System.out.println(evt.getKeyChar());
+        //System.out.println(evt.getKeyChar());
         Direction dir = null;
         char eing = evt.getKeyChar();
         eing = Character.toLowerCase(eing);
-        System.out.println(eing);
+        //System.out.println(eing);
         switch (eing) {
             case 'w':
                 dir = Direction.HOCH;
@@ -143,6 +147,15 @@ public class MainGUI extends javax.swing.JFrame {
     private void canvas1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_canvas1FocusLost
         cnt.pause();
     }//GEN-LAST:event_canvas1FocusLost
+
+    public void setlbl_Punkte(int punkte) {
+        if (punkte < 0) {
+            lbl_Punkte.setVisible(false);
+        } else {
+            lbl_Punkte.setVisible(true);
+            lbl_Punkte.setText("" + punkte);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -185,6 +198,7 @@ public class MainGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Start;
     private java.awt.Canvas canvas1;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lbl_Punkte;
     // End of variables declaration//GEN-END:variables
 }

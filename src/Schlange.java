@@ -50,7 +50,7 @@ public class Schlange {
                     break;
             }
         }
-        System.out.println(dir);
+        //System.out.println(dir);
     }
 
     public void setKopf(Feld kopf) {
@@ -86,7 +86,8 @@ public class Schlange {
 
     private void addGefressenesZiel(Feld ziel) {
         this.gefresseneZieleZumAnhaengen.add(ziel);
-        
+        //this.cnt.zielwurdegefressen();
+
     }
 
     public void zeichneSchlange(Graphics zfl) {
@@ -94,12 +95,13 @@ public class Schlange {
             zfl.setColor(Color.GREEN);
             zfl.fillRect(sFeld.getX(), sFeld.getY(), cnt.getFeldgroese(), cnt.getFeldgroese());
         }
+        zfl.setColor(Color.BLUE);
+        zfl.fillRect(sKopf.getX(), sKopf.getY(), cnt.getFeldgroese(), cnt.getFeldgroese());
     }
 
     public void loescheAnzeigeSchlange(Graphics zfl) {
-        for (Feld sFeld : schlangenliste) {
-            zfl.clearRect(sFeld.getX(), sFeld.getY(), cnt.getFeldgroese(), cnt.getFeldgroese());
-        }
+        zfl.clearRect(schlangenliste.get(schlangenliste.size() - 1).getX(), schlangenliste.get(schlangenliste.size() - 1).getY(), cnt.getFeldgroese(), cnt.getFeldgroese());
+
     }
 
     public void move() {
