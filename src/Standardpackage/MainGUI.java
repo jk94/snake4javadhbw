@@ -1,3 +1,8 @@
+package Standardpackage;
+
+
+import Enums.EnumDirection;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -37,7 +42,6 @@ public class MainGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setMinimumSize(new java.awt.Dimension(625, 520));
-        setPreferredSize(new java.awt.Dimension(625, 520));
         setResizable(false);
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -115,22 +119,22 @@ public class MainGUI extends javax.swing.JFrame {
 
     private void canvas1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_canvas1KeyTyped
         //System.out.println(evt.getKeyChar());
-        Direction dir = null;
+        EnumDirection dir = null;
         char eing = evt.getKeyChar();
         eing = Character.toLowerCase(eing);
         //System.out.println(eing);
         switch (eing) {
             case 'w':
-                dir = Direction.HOCH;
+                dir = EnumDirection.HOCH;
                 break;
             case 's':
-                dir = Direction.RUNTER;
+                dir = EnumDirection.RUNTER;
                 break;
             case 'a':
-                dir = Direction.LINKS;
+                dir = EnumDirection.LINKS;
                 break;
             case 'd':
-                dir = Direction.RECHTS;
+                dir = EnumDirection.RECHTS;
                 break;
             default:
                 break;

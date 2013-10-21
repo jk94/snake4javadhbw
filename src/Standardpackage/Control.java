@@ -1,10 +1,13 @@
+package Standardpackage;
 
-import java.awt.Color;
-import java.awt.Font;
+
+import Zeichenobjekte.Schlange;
+import Zeichenobjekte.Feld;
+import Enums.EnumDirection;
+import Enums.EnumSchwierigkeit;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.TimerTask;
 import javax.swing.Timer;
 
 public class Control {
@@ -19,6 +22,7 @@ public class Control {
     private Timer timer = null;
     private Punkte pkt = null;
     private Zeichencontrol zcnt;
+    private Schwierigkeit schwierigkeit;
 
     public Control(MainGUI mGUI) {
         this.mgui = mGUI;
@@ -59,8 +63,7 @@ public class Control {
         if (timer != null) {
             timer.stop();
         }
-        //System.out.println(spielfeldX / pixelgroese);
-        //zeichenflaeche.clearRect(0, 0, spielfeldX, spielfeldY);
+        
         Spielfeld = new Feld[spielfeldX / pixelgroese - 1][spielfeldX / pixelgroese - 1];
         for (int i = 0; i < spielfeldX / pixelgroese - 1; i++) {
             for (int i2 = 0; i2 < spielfeldX / pixelgroese - 1; i2++) {
@@ -81,6 +84,7 @@ public class Control {
                 letSnakeRun();
             }
         });
+        schwierigkeit = new Schwierigkeit(pkt, timer, EnumSchwierigkeit.NORMAL);
     }
 
     
@@ -88,16 +92,7 @@ public class Control {
     public void gameOver() {
         timer.stop();
         timer = null;
-        zeichenflaeche.setColor(Color.WHITE);
-        //zeichenflaeche.drawChars(new String("GAME OVER!").toCharArray(), 0, 0, pixelgroese, pixelgroese);
-        Font f = new Font("serif", Font.BOLD, 50);
-        zeichenflaeche.setFont(f);
-        int x = zeichenflaeche.getFontMetrics().stringWidth("GAME OVER!");
-        zeichenflaeche.drawString("GAME OVER!", mgui.getCanvas().getWidth() / 2 - x / 2, 100);
-        f = new Font("serif", Font.BOLD, 30);
-        zeichenflaeche.setFont(f);
-        x = zeichenflaeche.getFontMetrics().stringWidth("Erreichte Punktzahl: " + pkt.getPunktezaehler());
-        zeichenflaeche.drawString("Erreichte Punktzahl: " + pkt.getPunktezaehler(), mgui.getCanvas().getWidth() / 2 - x / 2, mgui.getCanvas().getHeight() / 2);
+        zcnt.zeichneGameOverMessage(pkt);
         mgui.setlbl_Punkte(-1);
     }
 
@@ -105,11 +100,12 @@ public class Control {
         aktuellesZiel = generiereNeuesZiel();
         pkt.ZielGefressen();
         mgui.setlbl_Punkte(pkt.getPunktezaehler());
-        zcnt.schreibePunkte(pkt, Spielfeld);
+        zcnt.zeichnePunkte(pkt, Spielfeld);
         zcnt.zeichneZiel(aktuellesZiel);
+        schwierigkeit.zielGefressen();
     }
 
-    public void changeDirection(Direction dir) {
+    public void changeDirection(EnumDirection dir) {
         sSnake.setDirection(dir);
     }
 
@@ -161,7 +157,7 @@ public class Control {
         return erg;
     }
 
-    public Feld gibAnliegendesFeld(Feld aFeld, Direction dir) {
+    public Feld gibAnliegendesFeld(Feld aFeld, EnumDirection dir) {
         int zaehler1 = 0, zaehler2 = 0;
         boolean gefunden = false;
         Feld erg = aFeld;

@@ -1,4 +1,7 @@
+package Standardpackage;
 
+
+import Zeichenobjekte.Feld;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -8,31 +11,31 @@ import java.util.ArrayList;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Jan
  */
 public class Zeichencontrol {
-    
-    private Graphics zeichenflaeche; 
+
+    private Graphics zeichenflaeche;
     private int pixelgroese, spielfeldX, spielfeldY;
-    
-    public Zeichencontrol(Graphics zfl, int pxl, int sfX, int sfY){
+
+    public Zeichencontrol(Graphics zfl, int pxl, int sfX, int sfY) {
         this.zeichenflaeche = zfl;
         this.pixelgroese = pxl;
         this.spielfeldX = sfX;
         this.spielfeldY = sfY;
     }
-    
-    public void zeichneFeld(Feld[][] Spielfeld){
+
+    public void zeichneFeld(Feld[][] Spielfeld) {
         loescheAnzeigekomplett();
         zeichneUndsetzeRand(Spielfeld);
     }
-    public void loescheAnzeigekomplett(){
+
+    public void loescheAnzeigekomplett() {
         zeichenflaeche.clearRect(0, 0, spielfeldX, spielfeldY);
     }
-    
+
     private void zeichneUndsetzeRand(Feld[][] Spielfeld) {
         zeichenflaeche.setColor(Color.BLACK);
         for (int i = 0; i < spielfeldX / pixelgroese - 1; i++) {
@@ -49,11 +52,12 @@ public class Zeichencontrol {
             }
         }
     }
-    
+
     public void loescheAnzeigeSchlange(ArrayList<Feld> schlangenliste) {
         zeichenflaeche.clearRect(schlangenliste.get(schlangenliste.size() - 1).getX(), schlangenliste.get(schlangenliste.size() - 1).getY(), pixelgroese, pixelgroese);
 
     }
+
     public void zeichneSchlange(ArrayList<Feld> schlangenliste) {
         for (Feld sFeld : schlangenliste) {
             zeichenflaeche.setColor(Color.GREEN);
@@ -62,13 +66,13 @@ public class Zeichencontrol {
         zeichenflaeche.setColor(Color.BLUE);
         zeichenflaeche.fillRect(schlangenliste.get(0).getX(), schlangenliste.get(0).getY(), pixelgroese, pixelgroese);
     }
-    
+
     public void zeichneZiel(Feld aktuellesZiel) {
         zeichenflaeche.setColor(Color.RED);
         zeichenflaeche.fillRect(aktuellesZiel.getX(), aktuellesZiel.getY(), pixelgroese, pixelgroese);
     }
-    
-    public void schreibePunkte(Punkte pkt, Feld[][] Spielfeld) {
+
+    public void zeichnePunkte(Punkte pkt, Feld[][] Spielfeld) {
         loescheAnzeigePunkte(Spielfeld);
         zeichenflaeche.setColor(Color.WHITE);
         Font f = new Font("serif", Font.BOLD, 10);
@@ -76,8 +80,21 @@ public class Zeichencontrol {
         zeichenflaeche.drawString("Punkte: " + pkt.getPunktezaehler(), Spielfeld[0][Spielfeld[0].length - 1].getX() + 10, Spielfeld[0][Spielfeld[0].length - 1].getY() + 10);
     }
 
-    public void loescheAnzeigePunkte( Feld[][] Spielfeld) {
+    public void loescheAnzeigePunkte(Feld[][] Spielfeld) {
         zeichenflaeche.setColor(Color.BLACK);
         zeichenflaeche.fillRect(Spielfeld[0][Spielfeld[0].length - 1].getX(), Spielfeld[0][Spielfeld[0].length - 1].getY(), Spielfeld[Spielfeld[0].length - 1][Spielfeld[0].length - 1].getX(), pixelgroese);
+    }
+
+    public void zeichneGameOverMessage(Punkte pkt) {
+        zeichenflaeche.setColor(Color.WHITE);
+        Font f = new Font("serif", Font.BOLD, 50);
+        zeichenflaeche.setFont(f);
+        int x = zeichenflaeche.getFontMetrics().stringWidth("GAME OVER!");
+        zeichenflaeche.drawString("GAME OVER!", spielfeldX / 2 - x / 2, 100);
+        
+        f = new Font("serif", Font.BOLD, 30);
+        zeichenflaeche.setFont(f);
+        x = zeichenflaeche.getFontMetrics().stringWidth("Erreichte Punktzahl: " + pkt.getPunktezaehler());
+        zeichenflaeche.drawString("Erreichte Punktzahl: " + pkt.getPunktezaehler(), spielfeldX / 2 - x / 2, spielfeldY / 2-30);
     }
 }

@@ -1,4 +1,8 @@
+package Zeichenobjekte;
 
+
+import Enums.EnumDirection;
+import Standardpackage.Control;
 import java.util.ArrayList;
 
 public class Schlange {
@@ -7,7 +11,7 @@ public class Schlange {
     private ArrayList<Feld> gefresseneZieleZumAnhaengen;
     private Feld sKopf;
     private Control cnt;
-    private Direction direction;
+    private EnumDirection direction;
     private boolean moved = false;
 
     public Schlange(Feld startkopf, Control cont) {
@@ -16,33 +20,33 @@ public class Schlange {
         this.schlangenliste.add(sKopf);
         this.gefresseneZieleZumAnhaengen = new ArrayList();
         this.cnt = cont;
-        this.direction = Direction.HOCH;
-        this.schlangenliste.add(cnt.gibAnliegendesFeld(sKopf, Direction.RUNTER));
+        this.direction = EnumDirection.HOCH;
+        this.schlangenliste.add(cnt.gibAnliegendesFeld(sKopf, EnumDirection.RUNTER));
     }
 
-    public void setDirection(Direction dir) {
+    public void setDirection(EnumDirection dir) {
         if (!moved) {
             switch (dir) {
                 case HOCH:
-                    if (this.direction != Direction.RUNTER) {
+                    if (this.direction != EnumDirection.RUNTER) {
                         this.direction = dir;
                         moved = true;
                     }
                     break;
                 case RUNTER:
-                    if (this.direction != Direction.HOCH) {
+                    if (this.direction != EnumDirection.HOCH) {
                         this.direction = dir;
                         moved = true;
                     }
                     break;
                 case LINKS:
-                    if (this.direction != Direction.RECHTS) {
+                    if (this.direction != EnumDirection.RECHTS) {
                         this.direction = dir;
                         moved = true;
                     }
                     break;
                 case RECHTS:
-                    if (this.direction != Direction.LINKS) {
+                    if (this.direction != EnumDirection.LINKS) {
                         this.direction = dir;
                         moved = true;
                     }
@@ -60,7 +64,7 @@ public class Schlange {
         return this.sKopf;
     }
 
-    public Direction getDirection() {
+    public EnumDirection getDirection() {
         return this.direction;
     }
 

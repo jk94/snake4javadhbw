@@ -1,3 +1,5 @@
+package Zeichenobjekte;
+
 public class Feld{
 	
 	private boolean blocked;
