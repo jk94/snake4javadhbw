@@ -18,13 +18,16 @@ public class Control {
     int pixelgroese;
     private Timer timer = null;
     private Punkte pkt = null;
+    private Zeichencontrol zcnt;
 
     public Control(MainGUI mGUI) {
         this.mgui = mGUI;
         this.zeichenflaeche = this.mgui.getCanvas().getGraphics();
+
         spielfeldX = this.mgui.getCanvas().getWidth();
         spielfeldY = this.mgui.getCanvas().getHeight();
         pixelgroese = spielfeldX / 30;
+        zcnt = new Zeichencontrol(zeichenflaeche, pixelgroese, spielfeldX, spielfeldY);
 
     }
 
@@ -48,26 +51,30 @@ public class Control {
         return this.aktuellesZiel;
     }
 
+    public Zeichencontrol getZeichenControl() {
+        return zcnt;
+    }
+
     public void neuesSpiel() {
         if (timer != null) {
             timer.stop();
         }
         //System.out.println(spielfeldX / pixelgroese);
-        zeichenflaeche.clearRect(0, 0, spielfeldX, spielfeldY);
+        //zeichenflaeche.clearRect(0, 0, spielfeldX, spielfeldY);
         Spielfeld = new Feld[spielfeldX / pixelgroese - 1][spielfeldX / pixelgroese - 1];
         for (int i = 0; i < spielfeldX / pixelgroese - 1; i++) {
             for (int i2 = 0; i2 < spielfeldX / pixelgroese - 1; i2++) {
                 Spielfeld[i][i2] = new Feld(i * pixelgroese, i2 * pixelgroese, false);
             }
         }
-        zeichneUndsetzeRand();
-        sSnake = new Schlange(Spielfeld[25][25], this);
-        sSnake.zeichneSchlange(zeichenflaeche);
+        this.zcnt.zeichneFeld(Spielfeld);
+        sSnake = new Schlange(Spielfeld[(int) (Spielfeld.length / 2)][(int) (Spielfeld.length / 2)], this);
+        zcnt.zeichneSchlange(sSnake.getSchlangenliste());
         aktuellesZiel = generiereNeuesZiel();
-        zeichneZiel();
+        zcnt.zeichneZiel(aktuellesZiel);
         pkt = new Punkte();
         mgui.setlbl_Punkte(0);
-        //ÜBERPRÜFEN!!
+        
         timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -76,19 +83,8 @@ public class Control {
         });
     }
 
-    public void schreibePunkte(){
-        loescheAnzeigePunkte();
-        zeichenflaeche.setColor(Color.WHITE);
-        Font f = new Font("serif", Font.BOLD, 10);
-        zeichenflaeche.setFont(f);
-        zeichenflaeche.drawString("Punkte: " + pkt.getPunktezaehler(), Spielfeld[0][Spielfeld[0].length-1].getX()+10,  Spielfeld[0][Spielfeld[0].length-1].getY()+10);
-    }
     
-    public void loescheAnzeigePunkte(){
-        zeichenflaeche.setColor(Color.BLACK);
-        zeichenflaeche.fillRect(Spielfeld[0][Spielfeld[0].length-1].getX(), Spielfeld[0][Spielfeld[0].length-1].getY(), Spielfeld[Spielfeld[0].length-1][Spielfeld[0].length-1].getX(), pixelgroese);
-    }
-    
+
     public void gameOver() {
         timer.stop();
         timer = null;
@@ -101,7 +97,7 @@ public class Control {
         f = new Font("serif", Font.BOLD, 30);
         zeichenflaeche.setFont(f);
         x = zeichenflaeche.getFontMetrics().stringWidth("Erreichte Punktzahl: " + pkt.getPunktezaehler());
-        zeichenflaeche.drawString("Erreichte Punktzahl: " + pkt.getPunktezaehler(), mgui.getCanvas().getWidth() / 2 - x / 2, mgui.getCanvas().getHeight()/2);
+        zeichenflaeche.drawString("Erreichte Punktzahl: " + pkt.getPunktezaehler(), mgui.getCanvas().getWidth() / 2 - x / 2, mgui.getCanvas().getHeight() / 2);
         mgui.setlbl_Punkte(-1);
     }
 
@@ -109,8 +105,8 @@ public class Control {
         aktuellesZiel = generiereNeuesZiel();
         pkt.ZielGefressen();
         mgui.setlbl_Punkte(pkt.getPunktezaehler());
-        schreibePunkte();
-        zeichneZiel();
+        zcnt.schreibePunkte(pkt, Spielfeld);
+        zcnt.zeichneZiel(aktuellesZiel);
     }
 
     public void changeDirection(Direction dir) {
@@ -135,9 +131,6 @@ public class Control {
         }
     }
 
-    public void moveSchlange(Direction dir) {
-    }
-
     private Feld generiereNeuesZiel() {
         Feld erg = null;
 
@@ -153,14 +146,7 @@ public class Control {
 
     private boolean istZielfeldOK(Feld fld) {
         boolean erg = true;
-        /*
-         for (Feld sFeld : sSnake.getSchlangenliste()) {
-         if (sFeld.getX() == fld.getX() && sFeld.getY() == fld.getY()) {
-         erg = false;
-         break;
-         }
-         }
-         */
+        
         for (int i = 0; i < Spielfeld.length; i++) {
             for (int i2 = 0; i2 < Spielfeld[i].length; i2++) {
                 if (Spielfeld[i][i2].getX() == fld.getX() && Spielfeld[i][i2].getY() == fld.getY()) {
@@ -173,28 +159,6 @@ public class Control {
         }
 
         return erg;
-    }
-
-    private void zeichneZiel() {
-        zeichenflaeche.setColor(Color.RED);
-        zeichenflaeche.fillRect(aktuellesZiel.getX(), aktuellesZiel.getY(), pixelgroese, pixelgroese);
-    }
-
-    private void zeichneUndsetzeRand() {
-        zeichenflaeche.setColor(Color.BLACK);
-        for (int i = 0; i < spielfeldX / pixelgroese - 1; i++) {
-            if (i == 0 || i == Spielfeld[i].length - 1) {
-                for (int i2 = 0; i2 <= Spielfeld[i].length - 1; i2++) {
-                    Spielfeld[i][i2].activate();
-                    zeichenflaeche.fillRect(Spielfeld[i][i2].getX(), Spielfeld[i][i2].getY(), pixelgroese, pixelgroese);
-                }
-            } else {
-                Spielfeld[i][0].activate();
-                zeichenflaeche.fillRect(Spielfeld[i][0].getX(), Spielfeld[i][0].getY(), pixelgroese, pixelgroese);
-                Spielfeld[i][Spielfeld[i].length - 1].activate();
-                zeichenflaeche.fillRect(Spielfeld[i][Spielfeld[i].length - 1].getX(), Spielfeld[i][Spielfeld[i].length - 1].getY(), pixelgroese, pixelgroese);
-            }
-        }
     }
 
     public Feld gibAnliegendesFeld(Feld aFeld, Direction dir) {
@@ -234,13 +198,5 @@ public class Control {
 
     public void letSnakeRun() {
         getSchlange().move();
-    }
-}
-
-class SnakeRun extends TimerTask {
-
-    @Override
-    public void run() {
-        System.out.println("Make my day.");
     }
 }
