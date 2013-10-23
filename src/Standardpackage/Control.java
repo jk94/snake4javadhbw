@@ -1,6 +1,5 @@
 package Standardpackage;
 
-
 import Zeichenobjekte.Schlange;
 import Zeichenobjekte.Feld;
 import Enums.EnumDirection;
@@ -23,9 +22,11 @@ public class Control {
     private Punkte pkt = null;
     private Zeichencontrol zcnt;
     private Schwierigkeit schwierigkeit;
+    private GameStatus gamestatus;
 
     public Control(MainGUI mGUI) {
         this.mgui = mGUI;
+
         this.zeichenflaeche = this.mgui.getCanvas().getGraphics();
 
         spielfeldX = this.mgui.getCanvas().getWidth();
@@ -33,6 +34,10 @@ public class Control {
         pixelgroese = spielfeldX / 30;
         zcnt = new Zeichencontrol(zeichenflaeche, pixelgroese, spielfeldX, spielfeldY);
 
+    }
+
+    public void init() {
+        gamestatus = new GameStatus(this);
     }
 
     public int getFeldgroese() {
@@ -63,21 +68,19 @@ public class Control {
         if (timer != null) {
             timer.stop();
         }
-        
         Spielfeld = new Feld[spielfeldX / pixelgroese - 1][spielfeldX / pixelgroese - 1];
         for (int i = 0; i < spielfeldX / pixelgroese - 1; i++) {
             for (int i2 = 0; i2 < spielfeldX / pixelgroese - 1; i2++) {
                 Spielfeld[i][i2] = new Feld(i * pixelgroese, i2 * pixelgroese, false);
             }
         }
-        this.zcnt.zeichneFeld(Spielfeld);
+        zcnt.zeichneFeld(Spielfeld);
         sSnake = new Schlange(Spielfeld[(int) (Spielfeld.length / 2)][(int) (Spielfeld.length / 2)], this);
         zcnt.zeichneSchlange(sSnake.getSchlangenliste());
         aktuellesZiel = generiereNeuesZiel();
         zcnt.zeichneZiel(aktuellesZiel);
         pkt = new Punkte();
-        mgui.setlbl_Punkte(0);
-        
+
         timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -87,19 +90,17 @@ public class Control {
         schwierigkeit = new Schwierigkeit(pkt, timer, EnumSchwierigkeit.NORMAL);
     }
 
-    
-
     public void gameOver() {
-        timer.stop();
-        timer = null;
-        zcnt.zeichneGameOverMessage(pkt);
-        mgui.setlbl_Punkte(-1);
+        gamestatus.GameOver();
+    }
+
+    public void SpielfeldClicked(java.awt.event.MouseEvent evt) {
+        gamestatus.clicked(evt);
     }
 
     public void zielwurdegefressen() {
         aktuellesZiel = generiereNeuesZiel();
         pkt.ZielGefressen();
-        mgui.setlbl_Punkte(pkt.getPunktezaehler());
         zcnt.zeichnePunkte(pkt, Spielfeld);
         zcnt.zeichneZiel(aktuellesZiel);
         schwierigkeit.zielGefressen();
@@ -127,6 +128,20 @@ public class Control {
         }
     }
 
+    public void stop() {
+        if (timer != null) {
+            timer.stop();
+            timer = null;
+        }
+        if (pkt != null) {
+            pkt.TimerStop();
+        }
+    }
+
+    public Punkte getPunkte() {
+        return pkt;
+    }
+
     private Feld generiereNeuesZiel() {
         Feld erg = null;
 
@@ -142,7 +157,7 @@ public class Control {
 
     private boolean istZielfeldOK(Feld fld) {
         boolean erg = true;
-        
+
         for (int i = 0; i < Spielfeld.length; i++) {
             for (int i2 = 0; i2 < Spielfeld[i].length; i2++) {
                 if (Spielfeld[i][i2].getX() == fld.getX() && Spielfeld[i][i2].getY() == fld.getY()) {

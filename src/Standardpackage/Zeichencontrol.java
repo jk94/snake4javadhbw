@@ -1,11 +1,14 @@
 package Standardpackage;
 
-
 import Zeichenobjekte.Feld;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /*
  * To change this template, choose Tools | Templates
@@ -91,10 +94,50 @@ public class Zeichencontrol {
         zeichenflaeche.setFont(f);
         int x = zeichenflaeche.getFontMetrics().stringWidth("GAME OVER!");
         zeichenflaeche.drawString("GAME OVER!", spielfeldX / 2 - x / 2, 100);
-        
+
         f = new Font("serif", Font.BOLD, 30);
         zeichenflaeche.setFont(f);
         x = zeichenflaeche.getFontMetrics().stringWidth("Erreichte Punktzahl: " + pkt.getPunktezaehler());
-        zeichenflaeche.drawString("Erreichte Punktzahl: " + pkt.getPunktezaehler(), spielfeldX / 2 - x / 2, spielfeldY / 2-30);
+        zeichenflaeche.drawString("Erreichte Punktzahl: " + pkt.getPunktezaehler(), spielfeldX / 2 - x / 2, spielfeldY / 2 - 30);
+    }
+
+    public Point[] zeichneExit() {
+        Font f = new Font("serif", Font.BOLD, 20);
+        zeichenflaeche.setFont(f);
+        int x = zeichenflaeche.getFontMetrics().stringWidth("Exit");
+        int y = 85;
+        zeichenflaeche.drawString("Exit", spielfeldX / 2 - x / 2, spielfeldY / 2 + y);
+        zeichenflaeche.drawRect(spielfeldX / 2 - x / 2 - 5, spielfeldY / 2 + y - zeichenflaeche.getFontMetrics().getHeight() / 2 - 5, x + 10, zeichenflaeche.getFontMetrics().getHeight());
+
+        Point[] erg = new Point[2];
+        erg[0] = new Point(spielfeldX / 2 - x / 2 - 5, spielfeldY / 2 + y - zeichenflaeche.getFontMetrics().getHeight() / 2 - 5);
+        erg[1] = new Point(erg[0].x + x + 10, erg[0].y + zeichenflaeche.getFontMetrics().getHeight());
+
+        return erg;
+    }
+
+    public Point[] zeichneNewGame() {
+        Font f = new Font("serif", Font.BOLD, 20);
+        zeichenflaeche.setFont(f);
+        int x = zeichenflaeche.getFontMetrics().stringWidth("Neues Spiel");
+
+        int y = 50;
+        zeichenflaeche.drawString("Neues Spiel", spielfeldX / 2 - x / 2, spielfeldY / 2 + y);
+        zeichenflaeche.drawRect(spielfeldX / 2 - x / 2 - 5, spielfeldY / 2 + y - zeichenflaeche.getFontMetrics().getHeight() / 2 - 5, x + 10, zeichenflaeche.getFontMetrics().getHeight());
+
+        Point[] erg = new Point[2];
+        erg[0] = new Point(spielfeldX / 2 - x / 2 - 5, spielfeldY / 2 + y - zeichenflaeche.getFontMetrics().getHeight() / 2 - 5);
+        erg[1] = new Point(erg[0].x + x + 10, erg[0].y + zeichenflaeche.getFontMetrics().getHeight());
+
+        return erg;
+    }
+
+    public void zeichneStartUp() {
+        Graphics2D g2d = (Graphics2D) zeichenflaeche;
+        ImageIcon tb_src = new ImageIcon(this.getClass().getResource("Titelbild.png"));
+        Image img = tb_src.getImage();
+        double y = img.getHeight(null);
+        double x = img.getWidth(null);
+        g2d.drawImage(img, 0, 0, spielfeldX, (int) (y / x * spielfeldX), null);
     }
 }

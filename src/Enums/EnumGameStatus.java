@@ -10,5 +10,8 @@ package Enums;
  * @author Jan
  */
 public enum EnumGameStatus {
-    
+    START,
+    PLAYING,
+    PAUSE,
+    GAMEOVER
 }

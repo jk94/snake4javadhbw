@@ -1,13 +1,11 @@
 package Standardpackage;
 
-
 import Enums.EnumDirection;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Philip
@@ -22,7 +20,7 @@ public class MainGUI extends javax.swing.JFrame {
     public MainGUI() {
         initComponents();
         cnt = new Control(this);
-
+        cnt.init();
     }
 
     /**
@@ -36,8 +34,6 @@ public class MainGUI extends javax.swing.JFrame {
 
         canvas1 = new java.awt.Canvas();
         btn_Start = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        lbl_Punkte = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -52,6 +48,11 @@ public class MainGUI extends javax.swing.JFrame {
         canvas1.setBackground(new java.awt.Color(192, 192, 192));
         canvas1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         canvas1.setMinimumSize(new java.awt.Dimension(500, 500));
+        canvas1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                canvas1MouseClicked(evt);
+            }
+        });
         canvas1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 canvas1FocusGained(evt);
@@ -73,20 +74,13 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Punkte:");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_Start, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(lbl_Punkte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btn_Start, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -99,10 +93,6 @@ public class MainGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_Start)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_Punkte, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -110,7 +100,9 @@ public class MainGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StartActionPerformed
-        cnt.neuesSpiel();
+        cnt.init();
+        btn_Start.setEnabled(false);
+        btn_Start.setVisible(false);
         //cnt.getZeichenflaeche().fillRect(0, 470, 500, 20);
     }//GEN-LAST:event_btn_StartActionPerformed
 
@@ -152,14 +144,9 @@ public class MainGUI extends javax.swing.JFrame {
         cnt.pause();
     }//GEN-LAST:event_canvas1FocusLost
 
-    public void setlbl_Punkte(int punkte) {
-        if (punkte < 0) {
-            lbl_Punkte.setVisible(false);
-        } else {
-            lbl_Punkte.setVisible(true);
-            lbl_Punkte.setText("" + punkte);
-        }
-    }
+    private void canvas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MouseClicked
+        cnt.SpielfeldClicked(evt);
+    }//GEN-LAST:event_canvas1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -202,7 +189,5 @@ public class MainGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Start;
     private java.awt.Canvas canvas1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel lbl_Punkte;
     // End of variables declaration//GEN-END:variables
 }
