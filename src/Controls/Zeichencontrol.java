@@ -1,5 +1,6 @@
-package Standardpackage;
+package Controls;
 
+import Standardpackage.Punkte;
 import Zeichenobjekte.Feld;
 import java.awt.Color;
 import java.awt.Font;
@@ -134,7 +135,7 @@ public class Zeichencontrol {
 
     public void zeichneStartUp() {
         Graphics2D g2d = (Graphics2D) zeichenflaeche;
-        ImageIcon tb_src = new ImageIcon(this.getClass().getResource("Titelbild.png"));
+        ImageIcon tb_src = new ImageIcon("resources//Titelbild.png");
         Image img = tb_src.getImage();
         double y = img.getHeight(null);
         double x = img.getWidth(null);

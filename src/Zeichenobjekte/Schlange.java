@@ -2,7 +2,7 @@ package Zeichenobjekte;
 
 
 import Enums.EnumDirection;
-import Standardpackage.Control;
+import Controls.Control;
 import java.util.ArrayList;
 
 public class Schlange {
@@ -121,6 +121,7 @@ public class Schlange {
             }
             moved = false;
         } else {
+            cnt.getScnt().playGameOver();
             cnt.gameOver();
         }
     }

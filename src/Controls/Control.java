@@ -1,9 +1,13 @@
-package Standardpackage;
+package Controls;
 
 import Zeichenobjekte.Schlange;
 import Zeichenobjekte.Feld;
 import Enums.EnumDirection;
 import Enums.EnumSchwierigkeit;
+import Standardpackage.GameStatus;
+import Standardpackage.MainGUI;
+import Standardpackage.Punkte;
+import Standardpackage.Schwierigkeit;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +27,7 @@ public class Control {
     private Zeichencontrol zcnt;
     private Schwierigkeit schwierigkeit;
     private GameStatus gamestatus;
+    private SoundController scnt;
 
     public Control(MainGUI mGUI) {
         this.mgui = mGUI;
@@ -33,7 +38,8 @@ public class Control {
         spielfeldY = this.mgui.getCanvas().getHeight();
         pixelgroese = spielfeldX / 30;
         zcnt = new Zeichencontrol(zeichenflaeche, pixelgroese, spielfeldX, spielfeldY);
-
+        scnt = new SoundController(this);
+        //scnt.playSound();
     }
 
     public void init() {
@@ -94,11 +100,20 @@ public class Control {
         gamestatus.GameOver();
     }
 
+    public SoundController getScnt() {
+        return scnt;
+    }
+
+    public void setScnt(SoundController scnt) {
+        this.scnt = scnt;
+    }
+
     public void SpielfeldClicked(java.awt.event.MouseEvent evt) {
         gamestatus.clicked(evt);
     }
 
     public void zielwurdegefressen() {
+        scnt.playFood();
         aktuellesZiel = generiereNeuesZiel();
         pkt.ZielGefressen();
         zcnt.zeichnePunkte(pkt, Spielfeld);
@@ -209,5 +224,6 @@ public class Control {
 
     public void letSnakeRun() {
         getSchlange().move();
+        scnt.move();
     }
 }

@@ -1,5 +1,6 @@
 package Standardpackage;
 
+import Controls.Control;
 import Enums.EnumGameStatus;
 import java.awt.Color;
 import java.awt.Point;
@@ -75,8 +76,8 @@ public class GameStatus {
         neuesSpielKor = cnt.getZeichenControl().zeichneNewGame();
         exitKor = cnt.getZeichenControl().zeichneExit();
     }
-    
-    public void startup(){
+
+    public void startup() {
         cnt.getZeichenControl().zeichneStartUp();
         cnt.getZeichenflaeche().setColor(Color.WHITE);
         neuesSpielKor = cnt.getZeichenControl().zeichneNewGame();
