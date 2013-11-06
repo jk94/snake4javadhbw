@@ -1,7 +1,14 @@
 package Controls;
 
+import Enums.EnumDirection;
+import static Enums.EnumDirection.HOCH;
+import static Enums.EnumDirection.LINKS;
+import static Enums.EnumDirection.RECHTS;
+import static Enums.EnumDirection.RUNTER;
 import Standardpackage.Punkte;
 import Zeichenobjekte.Feld;
+import Zeichenobjekte.Images;
+import Zeichenobjekte.Schlange;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -23,12 +30,14 @@ public class Zeichencontrol {
 
     private Graphics zeichenflaeche;
     private int pixelgroese, spielfeldX, spielfeldY;
+    private Images img;
 
-    public Zeichencontrol(Graphics zfl, int pxl, int sfX, int sfY) {
+    public Zeichencontrol(Graphics zfl, int pxl, int sfX, int sfY, Images img) {
         this.zeichenflaeche = zfl;
         this.pixelgroese = pxl;
         this.spielfeldX = sfX;
         this.spielfeldY = sfY;
+        this.img = img;
     }
 
     public void zeichneFeld(Feld[][] Spielfeld) {
@@ -58,8 +67,14 @@ public class Zeichencontrol {
     }
 
     public void loescheAnzeigeSchlange(ArrayList<Feld> schlangenliste) {
-        zeichenflaeche.clearRect(schlangenliste.get(schlangenliste.size() - 1).getX(), schlangenliste.get(schlangenliste.size() - 1).getY(), pixelgroese, pixelgroese);
+        for (Feld f : schlangenliste) {
+            zeichenflaeche.clearRect(f.getX(), f.getY(), pixelgroese, pixelgroese);
+        }
 
+    }
+
+    public void loescheAnzeigeSchlange(Feld letztesFeld) {
+        zeichenflaeche.clearRect(letztesFeld.getX(), letztesFeld.getY(), pixelgroese, pixelgroese);
     }
 
     public void zeichneSchlange(ArrayList<Feld> schlangenliste) {
@@ -69,6 +84,83 @@ public class Zeichencontrol {
         }
         zeichenflaeche.setColor(Color.BLUE);
         zeichenflaeche.fillRect(schlangenliste.get(0).getX(), schlangenliste.get(0).getY(), pixelgroese, pixelgroese);
+
+    }
+
+    public void zeichneSchlange(Schlange sSnake) {
+        /*Feld abc = sSnake.getSchlangenliste().get(sSnake.getSchlangenliste().size()-1);
+         zeichenflaeche.clearRect(abc.getX(), abc.getY(), pixelgroese, pixelgroese); */
+        Graphics2D g2d = (Graphics2D) zeichenflaeche;
+        int sz = sSnake.getSchlangenliste().size();
+        loescheAnzeigeSchlange(sSnake.getSchlangenliste());
+        for (int i = 1; i < sSnake.getSchlangenliste().size() - 1; i++) {
+            g2d.drawImage(getSchlangenteil(sSnake.getSchlangenliste(), i), sSnake.getSchlangenliste().get(i).getX(), sSnake.getSchlangenliste().get(i).getY(), null);
+        }
+        g2d.drawImage(getSchlangenkopf(sSnake.getDirection()), sSnake.getKopf().getX(), sSnake.getKopf().getY(), null);
+        g2d.drawImage(getSchlangenschwanz(sSnake.getSchlangenliste().get(sz - 1), sSnake.getSchlangenliste().get(sz - 2)), sSnake.getSchlangenliste().get(sz - 1).getX(), sSnake.getSchlangenliste().get(sz - 1).getY(), null);
+    }
+
+    private Image getSchlangenkopf(Enums.EnumDirection dir) {
+        Image erg = null;
+        switch (dir) {
+            case HOCH:
+                erg = img.getkHoch();
+                break;
+            case RUNTER:
+                erg = img.getkRunter();
+                break;
+            case LINKS:
+                erg = img.getkLinks();
+                break;
+            case RECHTS:
+                erg = img.getkRechts();
+                break;
+        }
+
+        return erg;
+    }
+
+    private Image getSchlangenschwanz(Feld schwanzfeld, Feld davor) {
+        Image erg = null;
+        if(davor.getX()<schwanzfeld.getX()){
+            erg = img.getsRechts();
+        }
+        if(davor.getX()>schwanzfeld.getX()){
+            erg = img.getsLinks();
+        }
+        if(davor.getY()<schwanzfeld.getY()){
+            erg = img.getsRunter();
+        }
+        if(davor.getY()>schwanzfeld.getY()){
+            erg = img.getsHoch();
+        }
+
+        return erg;
+    }
+
+    private Image getSchlangenteil(ArrayList<Feld> schlangenliste, int index) {
+        Image erg = null;
+        Feld davor = schlangenliste.get(index - 1), danach = schlangenliste.get(index + 1), selber = schlangenliste.get(index);
+        if ((davor.getX() < selber.getX() && danach.getX() > selber.getX()) || (davor.getX() > selber.getX() && danach.getX() < selber.getX())) {
+            erg = img.getWaagrecht();
+        }
+        if (((davor.getY() < selber.getY()) && danach.getY() > selber.getY()) || ((davor.getY() > selber.getY()) && danach.getY() < selber.getY())) {
+            erg = img.getSenkrecht();
+        }
+
+        if ((davor.getX() < selber.getX() && danach.getY() < selber.getY()) || (davor.getY() < selber.getY() && danach.getX() < selber.getX())) {
+            erg = img.getrLinksOben();
+        }
+        if ((davor.getX() < selber.getX() && danach.getY() > selber.getY()) || (davor.getY() > selber.getY() && danach.getX() < selber.getX())) {
+            erg = img.getrLinksUnten();
+        }
+        if ((davor.getX() > selber.getX() && danach.getY() < selber.getY()) || (davor.getY() < selber.getY() && danach.getX() > selber.getX())) {
+            erg = img.getrRechtsOben();
+        }
+        if ((davor.getX() > selber.getX() && danach.getY() > selber.getY()) || (davor.getY() > selber.getY() && danach.getX() > selber.getX())) {
+            erg = img.getrRechtsUnten();
+        }
+        return erg;
     }
 
     public void zeichneZiel(Feld aktuellesZiel) {
@@ -135,7 +227,7 @@ public class Zeichencontrol {
 
     public void zeichneStartUp() {
         Graphics2D g2d = (Graphics2D) zeichenflaeche;
-        ImageIcon tb_src = new ImageIcon("resources//Titelbild.png");
+        ImageIcon tb_src = new ImageIcon("resources//images//Titelbild.png");
         Image img = tb_src.getImage();
         double y = img.getHeight(null);
         double x = img.getWidth(null);

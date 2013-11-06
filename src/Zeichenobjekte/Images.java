@@ -1,0 +1,95 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Zeichenobjekte;
+
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
+/**
+ *
+ * @author User
+ */
+public class Images {
+
+    private Image waagrecht, senkrecht, kHoch, kRunter, kLinks, kRechts;
+    private Image sHoch, sRunter, sLinks, sRechts;
+    private Image rLinksUnten, rRechtsUnten, rRechtsOben, rLinksOben;
+    private String themename = "";
+
+    public Images(String pfad) {
+        waagrecht = (new ImageIcon(pfad + "//gerade_links_rechts.png")).getImage();
+        senkrecht = (new ImageIcon(pfad + "/gerade_oben_unten.png")).getImage();
+        kHoch = (new ImageIcon(pfad + "//kopf_oben.png")).getImage();
+        kRunter = (new ImageIcon(pfad + "//kopf_unten.png")).getImage();
+        kLinks = (new ImageIcon(pfad + "//kopf_links.png")).getImage();
+        kRechts = (new ImageIcon(pfad + "//kopf_rechts.png")).getImage();
+        sHoch = (new ImageIcon(pfad + "//schwanz_unten.png")).getImage();
+        sRunter = (new ImageIcon(pfad + "//schwanz_oben.png")).getImage();
+        sLinks = (new ImageIcon(pfad + "//schwanz_Rechts.png")).getImage();
+        sRechts = (new ImageIcon(pfad + "//schwanz_Links.png")).getImage();
+        rLinksUnten = (new ImageIcon(pfad + "//kurve_links_unten.png")).getImage();
+        rRechtsUnten = (new ImageIcon(pfad + "//kurve_rechts_unten.png")).getImage();
+        rRechtsOben = (new ImageIcon(pfad + "//kurve_rechts_oben.png")).getImage();
+        rLinksOben = (new ImageIcon(pfad + "//kurve_links_oben.png")).getImage();
+    }
+
+    public Image getWaagrecht() {
+        return waagrecht;
+    }
+
+    public Image getSenkrecht() {
+        return senkrecht;
+    }
+
+    public Image getkHoch() {
+        return kHoch;
+    }
+
+    public Image getkRunter() {
+        return kRunter;
+    }
+
+    public Image getkLinks() {
+        return kLinks;
+    }
+
+    public Image getkRechts() {
+        return kRechts;
+    }
+
+    public Image getsHoch() {
+        return sHoch;
+    }
+
+    public Image getsRunter() {
+        return sRunter;
+    }
+
+    public Image getsLinks() {
+        return sLinks;
+    }
+
+    public Image getsRechts() {
+        return sRechts;
+    }
+
+    public Image getrLinksUnten() {
+        return rLinksUnten;
+    }
+
+    public Image getrRechtsUnten() {
+        return rRechtsUnten;
+    }
+
+    public Image getrRechtsOben() {
+        return rRechtsOben;
+    }
+
+    public Image getrLinksOben() {
+        return rLinksOben;
+    }
+
+}

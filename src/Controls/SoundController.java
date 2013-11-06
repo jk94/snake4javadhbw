@@ -30,7 +30,7 @@ public class SoundController {
     private AudioInputStream loadmove1() {
         AudioInputStream erg = null;
         try {
-            erg = AudioSystem.getAudioInputStream(new File("resources//move1.wav"));
+            erg = AudioSystem.getAudioInputStream(new File("resources//sound//move1.wav"));
         } catch (Exception ex) {
 
         }
@@ -40,7 +40,7 @@ public class SoundController {
     private AudioInputStream loadmove2() {
         AudioInputStream erg = null;
         try {
-            erg = AudioSystem.getAudioInputStream(new File("resources//move2.wav"));
+            erg = AudioSystem.getAudioInputStream(new File("resources//sound//move2.wav"));
         } catch (Exception ex) {
 
         }
@@ -50,7 +50,7 @@ public class SoundController {
     private AudioInputStream loadfood() {
         AudioInputStream erg = null;
         try {
-            erg = AudioSystem.getAudioInputStream(new File("resources//food.wav"));
+            erg = AudioSystem.getAudioInputStream(new File("resources//sound//food.wav"));
         } catch (Exception ex) {
 
         }
@@ -60,7 +60,7 @@ public class SoundController {
     private AudioInputStream loadgameover() {
         AudioInputStream erg = null;
         try {
-            erg = AudioSystem.getAudioInputStream(new File("resources//gameover.wav"));
+            erg = AudioSystem.getAudioInputStream(new File("resources//sound//gameover.wav"));
         } catch (Exception ex) {
 
         }

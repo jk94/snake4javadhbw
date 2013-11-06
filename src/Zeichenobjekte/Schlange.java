@@ -114,7 +114,8 @@ public class Schlange {
             for (Feld sf : schlangenliste) {
                 sf.activate();
             }
-            cnt.getZeichenControl().zeichneSchlange(schlangenliste);
+            //cnt.getZeichenControl().zeichneSchlange(schlangenliste);
+            cnt.getZeichenControl().zeichneSchlange(this);
             if (istzielGefressen(cnt.getAktuelleZiel())) {
                 addGefressenesZiel(cnt.getAktuelleZiel());
                 cnt.zielwurdegefressen();

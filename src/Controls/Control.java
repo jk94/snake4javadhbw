@@ -8,6 +8,7 @@ import Standardpackage.GameStatus;
 import Standardpackage.MainGUI;
 import Standardpackage.Punkte;
 import Standardpackage.Schwierigkeit;
+import Zeichenobjekte.Images;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,7 @@ public class Control {
     private Timer timer = null;
     private Punkte pkt = null;
     private Zeichencontrol zcnt;
+    private ThemeControl tcnt;
     private Schwierigkeit schwierigkeit;
     private GameStatus gamestatus;
     private SoundController scnt;
@@ -37,9 +39,10 @@ public class Control {
         spielfeldX = this.mgui.getCanvas().getWidth();
         spielfeldY = this.mgui.getCanvas().getHeight();
         pixelgroese = spielfeldX / 30;
-        zcnt = new Zeichencontrol(zeichenflaeche, pixelgroese, spielfeldX, spielfeldY);
+        
+        tcnt = new ThemeControl("resources//images//theme");
+        zcnt = new Zeichencontrol(zeichenflaeche, pixelgroese, spielfeldX, spielfeldY, tcnt.getAktuellesTheme());
         scnt = new SoundController(this);
-        //scnt.playSound();
     }
 
     public void init() {
