@@ -24,7 +24,7 @@ public class ThemeControl {
         path = themepfad;
         ThemesEinlesen();
         if (themelist.size() > 0) {
-            aktuellesTheme = themelist.get(0);
+            aktuellesTheme = themelist.get(1);
         }
     }
 

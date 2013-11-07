@@ -17,7 +17,7 @@ public class Images {
     private Image waagrecht, senkrecht, kHoch, kRunter, kLinks, kRechts;
     private Image sHoch, sRunter, sLinks, sRechts;
     private Image rLinksUnten, rRechtsUnten, rRechtsOben, rLinksOben;
-    private Image tonan, tonaus, wall;
+    private Image tonan, tonaus, wall, ziel;
 
     
     private String themename = "";
@@ -41,6 +41,7 @@ public class Images {
         tonan = (new ImageIcon(pfad + "//sound_on.png")).getImage();
         tonaus = (new ImageIcon(pfad + "//sound_off.png")).getImage();
         wall = (new ImageIcon(pfad + "//wall.png")).getImage();
+        ziel = (new ImageIcon(pfad + "//goal.png")).getImage();
         System.out.println("Themepack: " + themename +  " geladen..");
     }
 
@@ -58,6 +59,10 @@ public class Images {
 
     public Image getWaagrecht() {
         return waagrecht;
+    }
+
+    public Image getZiel() {
+        return ziel;
     }
 
     public Image getSenkrecht() {

@@ -2,8 +2,10 @@ package Standardpackage;
 
 import Controls.Control;
 import Enums.EnumGameStatus;
+import Zeichenobjekte.CButton;
 import Zeichenobjekte.Feld;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 
 /*
@@ -18,8 +20,7 @@ public class GameStatus {
 
     private Enums.EnumGameStatus GS;
     private Control cnt;
-    private Point[] neuesSpielKor;
-    private Point[] exitKor;
+    private CButton neuesSpiel, exit;
 
     public GameStatus(Control ccnt) {
         this.cnt = ccnt;
@@ -35,41 +36,43 @@ public class GameStatus {
         if (evt.getButton() == 1) {
             switch (GS) {
                 case GAMEOVER:
-                    if (evt.getX() >= neuesSpielKor[0].x && evt.getX() <= neuesSpielKor[1].x
-                            && evt.getY() >= neuesSpielKor[0].y && evt.getY() <= neuesSpielKor[1].y) {
-                        cnt.neuesSpiel();
-                        this.GS = EnumGameStatus.PLAYING;
-                        cnt.start();
-                    } else {
-                        if (evt.getX() >= exitKor[0].x && evt.getX() <= exitKor[1].x
-                                && evt.getY() >= exitKor[0].y && evt.getY() <= exitKor[1].y) {
-                            System.exit(0);
-                        } else {
-                            clickTestTon(evt);
+                    if (!neuesSpiel.equals(null)) {
+                        if (neuesSpiel.clicked(evt)) {
+                            cnt.neuesSpiel();
+                            this.GS = EnumGameStatus.PLAYING;
+                            cnt.start();
+                            break;
                         }
                     }
-
+                    if (!exit.equals(null)) {
+                        if (exit.clicked(evt)) {
+                            System.exit(0);
+                            break;
+                        }
+                    }
+                    clickTestTon(evt);
                     break;
-
                 case PAUSE:
                     break;
                 case PLAYING:
                     clickTestTon(evt);
                     break;
                 case START:
-                    if (evt.getX() >= neuesSpielKor[0].x && evt.getX() <= neuesSpielKor[1].x
-                            && evt.getY() >= neuesSpielKor[0].y && evt.getY() <= neuesSpielKor[1].y) {
-                        cnt.neuesSpiel();
-                        this.GS = EnumGameStatus.PLAYING;
-                        cnt.start();
-                    } else {
-                        if (evt.getX() >= exitKor[0].x && evt.getX() <= exitKor[1].x
-                                && evt.getY() >= exitKor[0].y && evt.getY() <= exitKor[1].y) {
-                            System.exit(0);
-                        } else {
-                            clickTestTon(evt);
+                    if (!neuesSpiel.equals(null)) {
+                        if (neuesSpiel.clicked(evt)) {
+                            cnt.neuesSpiel();
+                            this.GS = EnumGameStatus.PLAYING;
+                            cnt.start();
                         }
+                        break;
                     }
+                    if (!exit.equals(null)) {
+                        if (exit.clicked(evt)) {
+                            System.exit(0);
+                        }
+                        break;
+                    }
+                    clickTestTon(evt);
                     break;
                 default:
             }
@@ -90,14 +93,55 @@ public class GameStatus {
         cnt.getZeichenControl().zeichneGameOverMessage(cnt.getPunkte());
         cnt.getPunkte().gameOver();
         GS = EnumGameStatus.GAMEOVER;
-        neuesSpielKor = cnt.getZeichenControl().zeichneNewGame();
-        exitKor = cnt.getZeichenControl().zeichneExit();
+        neuesSpiel = getNeuesSpielButton();
+        exit = getExitButton();
+
+        cnt.getZeichenControl().zeichneNewGame(neuesSpiel);
+        cnt.getZeichenControl().zeichneExit(exit);
+
     }
 
     public void startup() {
         cnt.getZeichenControl().zeichneStartUp();
-        cnt.getZeichenflaeche().setColor(Color.WHITE);
-        neuesSpielKor = cnt.getZeichenControl().zeichneNewGame();
-        exitKor = cnt.getZeichenControl().zeichneExit();
+
+        neuesSpiel = getNeuesSpielButton();
+        exit = getExitButton();
+
+        //neuesSpielKor = cnt.getZeichenControl().zeichneNewGame();
+        cnt.getZeichenControl().zeichneNewGame(neuesSpiel);
+        cnt.getZeichenControl().zeichneExit(exit);
+    }
+
+    private CButton getNeuesSpielButton() {
+        //spielfeldX / 2 - x / 2
+        CButton erg = null;
+
+        erg = new CButton("Neues Spiel", 0, 0, 0, 0);
+        erg.setFo(new Font("serif", Font.BOLD, 20));
+        erg.setBorder(1);
+        erg.setTextcolor(Color.WHITE);
+        erg.setBordercolor(Color.WHITE);
+        erg.setWidth(cnt.getZeichenflaeche().getFontMetrics(erg.getFo()).stringWidth("Neues Spiel") + 10);
+        erg.setHeight(cnt.getZeichenflaeche().getFontMetrics(erg.getFo()).getHeight() + 10);
+        erg.setX(cnt.getWidth() / 2 - erg.getWidth() / 2 - 5);
+        erg.setY((int) (cnt.getHeight() / 2) + 50);
+
+        return erg;
+    }
+
+    private CButton getExitButton() {
+        CButton erg = null;
+
+        erg = new CButton("Exit", 0, 0, 0, 0);
+        erg.setFo(new Font("serif", Font.BOLD, 20));
+        erg.setBorder(1);
+        erg.setBordercolor(Color.WHITE);
+        erg.setTextcolor(Color.WHITE);
+        erg.setWidth(neuesSpiel.getWidth());
+        erg.setHeight(cnt.getZeichenflaeche().getFontMetrics(erg.getFo()).getHeight() + 10);
+        erg.setX(cnt.getWidth() / 2 - erg.getWidth() / 2 - 5);
+        erg.setY((int) (cnt.getHeight() / 2) + 50 + getNeuesSpielButton().getHeight() + 10);
+
+        return erg;
     }
 }

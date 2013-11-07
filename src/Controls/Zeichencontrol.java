@@ -5,6 +5,7 @@ import static Enums.EnumDirection.LINKS;
 import static Enums.EnumDirection.RECHTS;
 import static Enums.EnumDirection.RUNTER;
 import Standardpackage.Punkte;
+import Zeichenobjekte.CButton;
 import Zeichenobjekte.Feld;
 import Zeichenobjekte.Images;
 import Zeichenobjekte.Schlange;
@@ -162,8 +163,9 @@ public class Zeichencontrol {
     }
 
     public void zeichneZiel(Feld aktuellesZiel) {
-        zeichenflaeche.setColor(Color.RED);
-        zeichenflaeche.fillRect(aktuellesZiel.getX(), aktuellesZiel.getY(), pixelgroese, pixelgroese);
+        Graphics2D g2d = (Graphics2D) zeichenflaeche;
+        g2d.drawImage(img.getZiel(), aktuellesZiel.getX(), aktuellesZiel.getY(), pixelgroese, pixelgroese, null);
+        
     }
 
     public void zeichnePunkte(Punkte pkt, Feld[][] Spielfeld) {
@@ -227,14 +229,21 @@ public class Zeichencontrol {
 
         return erg;
     }
+    public void zeichneNewGame(CButton ng){
+        ng.draw(zeichenflaeche);
+    }
 
+    public void zeichneExit(CButton e){
+        e.draw(zeichenflaeche);
+    }
+    
     public void zeichneStartUp() {
         Graphics2D g2d = (Graphics2D) zeichenflaeche;
         ImageIcon tb_src = new ImageIcon("resources//images//Titelbild.png");
         Image img = tb_src.getImage();
         double y = img.getHeight(null);
         double x = img.getWidth(null);
-        g2d.drawImage(img, spielfeldX/4, 200, spielfeldX/2, (int) (y / x * spielfeldX/2), null);
+        g2d.drawImage(img, spielfeldX / 4, 200, spielfeldX / 2, (int) (y / x * spielfeldX / 2), null);
     }
 
     public void zeichneTonIcon(Point pt) {
