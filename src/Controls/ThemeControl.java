@@ -23,7 +23,7 @@ public class ThemeControl {
         themelist = new ArrayList<>();
         path = themepfad;
         ThemesEinlesen();
-        if(themelist.size()>0){
+        if (themelist.size() > 0) {
             aktuellesTheme = themelist.get(0);
         }
     }
@@ -31,11 +31,9 @@ public class ThemeControl {
     public void ThemesEinlesen() {
         File a = new File(path);
         for (String ab : a.list()) {
-            System.out.println(ab);
             File b = new File(path + "//" + ab);
-            System.out.println(b.getPath());
             if (b.isDirectory()) {
-                Images img = new Images(b.getPath());
+                Images img = new Images(ab,b.getPath());
                 themelist.add(img);
             }
         }

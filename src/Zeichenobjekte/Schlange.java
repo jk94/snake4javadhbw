@@ -1,6 +1,5 @@
 package Zeichenobjekte;
 
-
 import Enums.EnumDirection;
 import Controls.Control;
 import java.util.ArrayList;

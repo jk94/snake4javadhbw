@@ -2,6 +2,7 @@ package Standardpackage;
 
 import Controls.Control;
 import Enums.EnumGameStatus;
+import Zeichenobjekte.Feld;
 import java.awt.Color;
 import java.awt.Point;
 
@@ -43,13 +44,17 @@ public class GameStatus {
                         if (evt.getX() >= exitKor[0].x && evt.getX() <= exitKor[1].x
                                 && evt.getY() >= exitKor[0].y && evt.getY() <= exitKor[1].y) {
                             System.exit(0);
+                        } else {
+                            clickTestTon(evt);
                         }
                     }
+
                     break;
 
                 case PAUSE:
                     break;
                 case PLAYING:
+                    clickTestTon(evt);
                     break;
                 case START:
                     if (evt.getX() >= neuesSpielKor[0].x && evt.getX() <= neuesSpielKor[1].x
@@ -61,11 +66,22 @@ public class GameStatus {
                         if (evt.getX() >= exitKor[0].x && evt.getX() <= exitKor[1].x
                                 && evt.getY() >= exitKor[0].y && evt.getY() <= exitKor[1].y) {
                             System.exit(0);
+                        } else {
+                            clickTestTon(evt);
                         }
                     }
                     break;
                 default:
             }
+        }
+    }
+
+    private void clickTestTon(java.awt.event.MouseEvent evt) {
+        Feld[][] Spielfeld = cnt.getSpielfeld();
+        Point pt = new Point(Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getX(), Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getY());
+        if (evt.getX() >= pt.x && evt.getX() <= pt.x + cnt.getFeldgroese()
+                && evt.getY() >= pt.y && evt.getY() <= pt.y + cnt.getFeldgroese()) {
+            cnt.toggleTon();
         }
     }
 
@@ -82,5 +98,7 @@ public class GameStatus {
         cnt.getZeichenflaeche().setColor(Color.WHITE);
         neuesSpielKor = cnt.getZeichenControl().zeichneNewGame();
         exitKor = cnt.getZeichenControl().zeichneExit();
+        Feld[][] Spielfeld = cnt.getSpielfeld();
+//        cnt.getZeichenControl().zeichneTonIcon(new Point(Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getX(), Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getY()));
     }
 }

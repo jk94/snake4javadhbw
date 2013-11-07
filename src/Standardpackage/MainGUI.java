@@ -2,6 +2,7 @@ package Standardpackage;
 
 import Controls.Control;
 import Enums.EnumDirection;
+import java.awt.event.KeyEvent;
 
 /*
  * To change this template, choose Tools | Templates
@@ -102,9 +103,11 @@ public class MainGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StartActionPerformed
-        cnt.init();
         btn_Start.setEnabled(false);
         btn_Start.setVisible(false);
+        
+        cnt.init();
+        cnt.getZeichenControl().zeichneStartUp();
         //cnt.getZeichenflaeche().fillRect(0, 470, 500, 20);
     }//GEN-LAST:event_btn_StartActionPerformed
 
@@ -133,6 +136,12 @@ public class MainGUI extends javax.swing.JFrame {
             default:
                 break;
         }
+        if (evt.getKeyCode() == KeyEvent.VK_LEFT) dir = EnumDirection.LINKS;
+        if (evt.getKeyCode() == KeyEvent.VK_RIGHT) dir = EnumDirection.RECHTS;
+        if (evt.getKeyCode() == KeyEvent.VK_UP) dir = EnumDirection.HOCH;
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN) dir = EnumDirection.RUNTER;
+        
+        
         if (dir != null) {
             cnt.changeDirection(dir);
         }

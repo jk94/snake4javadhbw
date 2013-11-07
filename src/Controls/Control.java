@@ -8,8 +8,8 @@ import Standardpackage.GameStatus;
 import Standardpackage.MainGUI;
 import Standardpackage.Punkte;
 import Standardpackage.Schwierigkeit;
-import Zeichenobjekte.Images;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
@@ -30,6 +30,7 @@ public class Control {
     private Schwierigkeit schwierigkeit;
     private GameStatus gamestatus;
     private SoundController scnt;
+    private boolean ton = true;
 
     public Control(MainGUI mGUI) {
         this.mgui = mGUI;
@@ -39,9 +40,9 @@ public class Control {
         spielfeldX = this.mgui.getCanvas().getWidth();
         spielfeldY = this.mgui.getCanvas().getHeight();
         pixelgroese = spielfeldX / 30;
-        
+
         tcnt = new ThemeControl("resources//images//theme");
-        zcnt = new Zeichencontrol(zeichenflaeche, pixelgroese, spielfeldX, spielfeldY, tcnt.getAktuellesTheme());
+        zcnt = new Zeichencontrol(zeichenflaeche, pixelgroese, spielfeldX, spielfeldY, tcnt.getAktuellesTheme(), this);
         scnt = new SoundController(this);
     }
 
@@ -49,8 +50,30 @@ public class Control {
         gamestatus = new GameStatus(this);
     }
 
+    public boolean getTon() {
+        return this.ton;
+    }
+
+    public void setTon(boolean ton) {
+        this.ton = ton;
+    }
+
+    public void toggleTon() {
+        this.ton = !this.ton;
+        zcnt.zeichneTonIcon(new Point(Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getX(), Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getY()));
+        System.out.println("tonwechsel");
+    }
+
     public int getFeldgroese() {
         return this.pixelgroese;
+    }
+
+    public int getWidth() {
+        return this.spielfeldX;
+    }
+
+    public int getHeight() {
+        return this.spielfeldY;
     }
 
     public Schlange getSchlange() {
@@ -97,6 +120,7 @@ public class Control {
             }
         });
         schwierigkeit = new Schwierigkeit(pkt, timer, EnumSchwierigkeit.NORMAL);
+        zcnt.zeichneTonIcon(new Point(Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getX(), Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getY()));
     }
 
     public void gameOver() {
@@ -125,7 +149,9 @@ public class Control {
     }
 
     public void changeDirection(EnumDirection dir) {
-        sSnake.setDirection(dir);
+        if (sSnake != null) {
+            sSnake.setDirection(dir);
+        }
     }
 
     public void start() {

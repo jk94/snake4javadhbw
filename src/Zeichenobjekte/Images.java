@@ -17,9 +17,11 @@ public class Images {
     private Image waagrecht, senkrecht, kHoch, kRunter, kLinks, kRechts;
     private Image sHoch, sRunter, sLinks, sRechts;
     private Image rLinksUnten, rRechtsUnten, rRechtsOben, rLinksOben;
+    private Image tonan, tonaus;
     private String themename = "";
 
-    public Images(String pfad) {
+    public Images(String name, String pfad) {
+        this.themename = name;
         waagrecht = (new ImageIcon(pfad + "//gerade_links_rechts.png")).getImage();
         senkrecht = (new ImageIcon(pfad + "/gerade_oben_unten.png")).getImage();
         kHoch = (new ImageIcon(pfad + "//kopf_oben.png")).getImage();
@@ -34,6 +36,21 @@ public class Images {
         rRechtsUnten = (new ImageIcon(pfad + "//kurve_rechts_unten.png")).getImage();
         rRechtsOben = (new ImageIcon(pfad + "//kurve_rechts_oben.png")).getImage();
         rLinksOben = (new ImageIcon(pfad + "//kurve_links_oben.png")).getImage();
+        tonan = (new ImageIcon(pfad + "//sound_on.png")).getImage();
+        tonaus = (new ImageIcon(pfad + "//sound_off.png")).getImage();
+        System.out.println("Themepack: " + themename +  " geladen..");
+    }
+
+    public Image getTonan() {
+        return tonan;
+    }
+
+    public Image getTonaus() {
+        return tonaus;
+    }
+
+    public String getThemename() {
+        return themename;
     }
 
     public Image getWaagrecht() {

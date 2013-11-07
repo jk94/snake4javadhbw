@@ -66,15 +66,15 @@ public class SoundController {
         }
         return erg;
     }
-    
-    public void move(){
-        if(z>=3){
+
+    public void move() {
+        if (z >= 3) {
             playMove();
-            z=0;
+            z = 0;
         }
         z++;
     }
-    
+
     private void playMove() {
         if (wechsledich) {
             playSound(loadmove1());
@@ -93,23 +93,24 @@ public class SoundController {
     }
 
     private void playSound(AudioInputStream ais) {
-        try {
+        if (cnt.getTon()) {
+            try {
 
-            AudioFormat af = ais.getFormat();
-            int size = (int) (af.getFrameSize() * ais.getFrameLength());
-            byte[] audio = new byte[size];
-            DataLine.Info info = new DataLine.Info(Clip.class, af, size);
-            ais.read(audio, 0, size);
+                AudioFormat af = ais.getFormat();
+                int size = (int) (af.getFrameSize() * ais.getFrameLength());
+                byte[] audio = new byte[size];
+                DataLine.Info info = new DataLine.Info(Clip.class, af, size);
+                ais.read(audio, 0, size);
 
-            // for(int i=0; i < 32; i++) {
-            Clip clip = (Clip) AudioSystem.getLine(info);
-            clip.open(af, audio, 0, size);
-            clip.start();
+                // for(int i=0; i < 32; i++) {
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                clip.open(af, audio, 0, size);
+                clip.start();
 
-            // }
-        } catch (Exception e) {
-            e.printStackTrace();
+                // }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-
 }

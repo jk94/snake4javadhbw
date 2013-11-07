@@ -1,6 +1,5 @@
 package Controls;
 
-import Enums.EnumDirection;
 import static Enums.EnumDirection.HOCH;
 import static Enums.EnumDirection.LINKS;
 import static Enums.EnumDirection.RECHTS;
@@ -31,13 +30,15 @@ public class Zeichencontrol {
     private Graphics zeichenflaeche;
     private int pixelgroese, spielfeldX, spielfeldY;
     private Images img;
+    private Control cnt;
 
-    public Zeichencontrol(Graphics zfl, int pxl, int sfX, int sfY, Images img) {
+    public Zeichencontrol(Graphics zfl, int pxl, int sfX, int sfY, Images img, Control cnt) {
         this.zeichenflaeche = zfl;
         this.pixelgroese = pxl;
         this.spielfeldX = sfX;
         this.spielfeldY = sfY;
         this.img = img;
+        this.cnt = cnt;
     }
 
     public void zeichneFeld(Feld[][] Spielfeld) {
@@ -100,6 +101,10 @@ public class Zeichencontrol {
         g2d.drawImage(getSchlangenschwanz(sSnake.getSchlangenliste().get(sz - 1), sSnake.getSchlangenliste().get(sz - 2)), sSnake.getSchlangenliste().get(sz - 1).getX(), sSnake.getSchlangenliste().get(sz - 1).getY(), null);
     }
 
+    public void zeichneSchlangenrumpf(ArrayList<Feld> schlangenliste) {
+
+    }
+
     private Image getSchlangenkopf(Enums.EnumDirection dir) {
         Image erg = null;
         switch (dir) {
@@ -122,16 +127,16 @@ public class Zeichencontrol {
 
     private Image getSchlangenschwanz(Feld schwanzfeld, Feld davor) {
         Image erg = null;
-        if(davor.getX()<schwanzfeld.getX()){
+        if (davor.getX() < schwanzfeld.getX()) {
             erg = img.getsRechts();
         }
-        if(davor.getX()>schwanzfeld.getX()){
+        if (davor.getX() > schwanzfeld.getX()) {
             erg = img.getsLinks();
         }
-        if(davor.getY()<schwanzfeld.getY()){
+        if (davor.getY() < schwanzfeld.getY()) {
             erg = img.getsRunter();
         }
-        if(davor.getY()>schwanzfeld.getY()){
+        if (davor.getY() > schwanzfeld.getY()) {
             erg = img.getsHoch();
         }
 
@@ -232,5 +237,22 @@ public class Zeichencontrol {
         double y = img.getHeight(null);
         double x = img.getWidth(null);
         g2d.drawImage(img, 0, 0, spielfeldX, (int) (y / x * spielfeldX), null);
+    }
+
+    public void zeichneTonIcon(Point pt) {
+        Graphics2D g2d = (Graphics2D) zeichenflaeche;
+
+        Image bild = null;
+        if (this.cnt.getTon()) {
+            //ic_ton = new ImageIcon("resources//images//Ton_an.png");
+            bild = img.getTonan();
+        } else {
+            //ic_ton = new ImageIcon("resources//images//Ton_aus.png");
+            bild = img.getTonaus();
+        }
+        zeichenflaeche.setColor(Color.black);
+        //TODO Hier muss dann der Rand neu gezeichnet werden.
+        zeichenflaeche.fillRect(pt.x, pt.y, 16, 16);
+        g2d.drawImage(bild, pt.x, pt.y, 16, 16, null);
     }
 }
