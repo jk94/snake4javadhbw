@@ -88,6 +88,7 @@ public class GameStatus {
     public void GameOver() {
         cnt.stop();
         cnt.getZeichenControl().zeichneGameOverMessage(cnt.getPunkte());
+        cnt.getPunkte().gameOver();
         GS = EnumGameStatus.GAMEOVER;
         neuesSpielKor = cnt.getZeichenControl().zeichneNewGame();
         exitKor = cnt.getZeichenControl().zeichneExit();
@@ -98,7 +99,5 @@ public class GameStatus {
         cnt.getZeichenflaeche().setColor(Color.WHITE);
         neuesSpielKor = cnt.getZeichenControl().zeichneNewGame();
         exitKor = cnt.getZeichenControl().zeichneExit();
-        Feld[][] Spielfeld = cnt.getSpielfeld();
-//        cnt.getZeichenControl().zeichneTonIcon(new Point(Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getX(), Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getY()));
     }
 }

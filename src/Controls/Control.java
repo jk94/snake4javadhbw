@@ -108,7 +108,7 @@ public class Control {
         }
         zcnt.zeichneFeld(Spielfeld);
         sSnake = new Schlange(Spielfeld[(int) (Spielfeld.length / 2)][(int) (Spielfeld.length / 2)], this);
-        zcnt.zeichneSchlange(sSnake.getSchlangenliste());
+        zcnt.zeichneSchlange(sSnake);
         aktuellesZiel = generiereNeuesZiel();
         zcnt.zeichneZiel(aktuellesZiel);
         pkt = new Punkte();
@@ -143,6 +143,7 @@ public class Control {
         scnt.playFood();
         aktuellesZiel = generiereNeuesZiel();
         pkt.ZielGefressen();
+
         zcnt.zeichnePunkte(pkt, Spielfeld);
         zcnt.zeichneZiel(aktuellesZiel);
         schwierigkeit.zielGefressen();

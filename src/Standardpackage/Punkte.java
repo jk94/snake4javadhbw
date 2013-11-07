@@ -69,4 +69,14 @@ public class Punkte {
     public int getZielZaehler() {
         return zielZaehler;
     }
+    
+    public void gameOver(){
+        
+        
+        sendPunkte();
+    }
+    
+    private void sendPunkte(){
+        
+    }
 }

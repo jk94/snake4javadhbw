@@ -52,17 +52,20 @@ public class Zeichencontrol {
 
     private void zeichneUndsetzeRand(Feld[][] Spielfeld) {
         zeichenflaeche.setColor(Color.BLACK);
+        Graphics2D g2d = (Graphics2D) zeichenflaeche;
         for (int i = 0; i < spielfeldX / pixelgroese - 1; i++) {
             if (i == 0 || i == Spielfeld[i].length - 1) {
                 for (int i2 = 0; i2 <= Spielfeld[i].length - 1; i2++) {
                     Spielfeld[i][i2].activate();
-                    zeichenflaeche.fillRect(Spielfeld[i][i2].getX(), Spielfeld[i][i2].getY(), pixelgroese, pixelgroese);
+                    //zeichenflaeche.fillRect(Spielfeld[i][i2].getX(), Spielfeld[i][i2].getY(), pixelgroese, pixelgroese);
+                    g2d.drawImage(img.getWall(), Spielfeld[i][i2].getX(), Spielfeld[i][i2].getY(), null);
                 }
+
             } else {
                 Spielfeld[i][0].activate();
-                zeichenflaeche.fillRect(Spielfeld[i][0].getX(), Spielfeld[i][0].getY(), pixelgroese, pixelgroese);
+                g2d.drawImage(img.getWall(), Spielfeld[i][0].getX(), Spielfeld[i][0].getY(), null);
                 Spielfeld[i][Spielfeld[i].length - 1].activate();
-                zeichenflaeche.fillRect(Spielfeld[i][Spielfeld[i].length - 1].getX(), Spielfeld[i][Spielfeld[i].length - 1].getY(), pixelgroese, pixelgroese);
+                g2d.drawImage(img.getWall(), Spielfeld[i][Spielfeld[i].length - 1].getX(), Spielfeld[i][Spielfeld[i].length - 1].getY(), null);
             }
         }
     }
@@ -76,16 +79,6 @@ public class Zeichencontrol {
 
     public void loescheAnzeigeSchlange(Feld letztesFeld) {
         zeichenflaeche.clearRect(letztesFeld.getX(), letztesFeld.getY(), pixelgroese, pixelgroese);
-    }
-
-    public void zeichneSchlange(ArrayList<Feld> schlangenliste) {
-        for (Feld sFeld : schlangenliste) {
-            zeichenflaeche.setColor(Color.GREEN);
-            zeichenflaeche.fillRect(sFeld.getX(), sFeld.getY(), pixelgroese, pixelgroese);
-        }
-        zeichenflaeche.setColor(Color.BLUE);
-        zeichenflaeche.fillRect(schlangenliste.get(0).getX(), schlangenliste.get(0).getY(), pixelgroese, pixelgroese);
-
     }
 
     public void zeichneSchlange(Schlange sSnake) {
@@ -182,8 +175,13 @@ public class Zeichencontrol {
     }
 
     public void loescheAnzeigePunkte(Feld[][] Spielfeld) {
-        zeichenflaeche.setColor(Color.BLACK);
-        zeichenflaeche.fillRect(Spielfeld[0][Spielfeld[0].length - 1].getX(), Spielfeld[0][Spielfeld[0].length - 1].getY(), Spielfeld[Spielfeld[0].length - 1][Spielfeld[0].length - 1].getX(), pixelgroese);
+        Graphics2D g2d = (Graphics2D) zeichenflaeche;
+        Feld[] unterezeile = new Feld[Spielfeld.length - 3];
+        for (int i = 0; i < unterezeile.length; i++) {
+            unterezeile[i] = Spielfeld[i][Spielfeld.length - 1];
+            zeichenflaeche.clearRect(unterezeile[i].getX(), unterezeile[i].getY(), pixelgroese, pixelgroese);
+            g2d.drawImage(img.getWall(), unterezeile[i].getX(), unterezeile[i].getY(), pixelgroese, pixelgroese, null);
+        }
     }
 
     public void zeichneGameOverMessage(Punkte pkt) {
@@ -236,12 +234,11 @@ public class Zeichencontrol {
         Image img = tb_src.getImage();
         double y = img.getHeight(null);
         double x = img.getWidth(null);
-        g2d.drawImage(img, 0, 0, spielfeldX, (int) (y / x * spielfeldX), null);
+        g2d.drawImage(img, spielfeldX/4, 200, spielfeldX/2, (int) (y / x * spielfeldX/2), null);
     }
 
     public void zeichneTonIcon(Point pt) {
         Graphics2D g2d = (Graphics2D) zeichenflaeche;
-
         Image bild = null;
         if (this.cnt.getTon()) {
             //ic_ton = new ImageIcon("resources//images//Ton_an.png");
