@@ -1,5 +1,11 @@
 package Zeichenobjekte;
 
+/**
+*
+* @author Jan Koschke
+*
+*/
+
 public class Feld{
 	
 	private boolean blocked;

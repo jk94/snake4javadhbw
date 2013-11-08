@@ -7,7 +7,7 @@ package Enums;
 
 /**
  *
- * @author Jan
+ * @author Jan Koschke
  */
 public enum EnumGameStatus {
     START,

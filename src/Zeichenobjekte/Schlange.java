@@ -1,5 +1,10 @@
 package Zeichenobjekte;
 
+/**
+ *
+ * @author Jan Koschke
+ *
+ */
 import Enums.EnumDirection;
 import Controls.Control;
 import java.util.ArrayList;
@@ -121,8 +126,9 @@ public class Schlange {
             }
             moved = false;
         } else {
-            cnt.getScnt().playGameOver();
+
             cnt.gameOver();
+            cnt.getScnt().playGameOver();
         }
     }
 }

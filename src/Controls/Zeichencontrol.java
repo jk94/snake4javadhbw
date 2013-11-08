@@ -24,7 +24,7 @@ import javax.swing.ImageIcon;
  */
 /**
  *
- * @author Jan
+ * @author Jan Koschke
  */
 public class Zeichencontrol {
 
@@ -40,6 +40,10 @@ public class Zeichencontrol {
         this.spielfeldY = sfY;
         this.img = img;
         this.cnt = cnt;
+    }
+
+    public void setImg(Images img) {
+        this.img = img;
     }
 
     public void zeichneFeld(Feld[][] Spielfeld) {
@@ -80,6 +84,10 @@ public class Zeichencontrol {
 
     public void loescheAnzeigeSchlange(Feld letztesFeld) {
         zeichenflaeche.clearRect(letztesFeld.getX(), letztesFeld.getY(), pixelgroese, pixelgroese);
+    }
+
+    public void loescheButton(CButton bt) {
+        zeichenflaeche.clearRect(bt.getX(), bt.getY(), bt.getWidth()+1, bt.getHeight()+1);
     }
 
     public void zeichneSchlange(Schlange sSnake) {
@@ -165,7 +173,7 @@ public class Zeichencontrol {
     public void zeichneZiel(Feld aktuellesZiel) {
         Graphics2D g2d = (Graphics2D) zeichenflaeche;
         g2d.drawImage(img.getZiel(), aktuellesZiel.getX(), aktuellesZiel.getY(), pixelgroese, pixelgroese, null);
-        
+
     }
 
     public void zeichnePunkte(Punkte pkt, Feld[][] Spielfeld) {
@@ -199,44 +207,11 @@ public class Zeichencontrol {
         zeichenflaeche.drawString("Erreichte Punktzahl: " + pkt.getPunktezaehler(), spielfeldX / 2 - x / 2, spielfeldY / 2 - 30);
     }
 
-    public Point[] zeichneExit() {
-        Font f = new Font("serif", Font.BOLD, 20);
-        zeichenflaeche.setFont(f);
-        int x = zeichenflaeche.getFontMetrics().stringWidth("Exit");
-        int y = 85;
-        zeichenflaeche.drawString("Exit", spielfeldX / 2 - x / 2, spielfeldY / 2 + y);
-        zeichenflaeche.drawRect(spielfeldX / 2 - x / 2 - 5, spielfeldY / 2 + y - zeichenflaeche.getFontMetrics().getHeight() / 2 - 5, x + 10, zeichenflaeche.getFontMetrics().getHeight());
-
-        Point[] erg = new Point[2];
-        erg[0] = new Point(spielfeldX / 2 - x / 2 - 5, spielfeldY / 2 + y - zeichenflaeche.getFontMetrics().getHeight() / 2 - 5);
-        erg[1] = new Point(erg[0].x + x + 10, erg[0].y + zeichenflaeche.getFontMetrics().getHeight());
-
-        return erg;
+    public void zeichneButton(CButton bt) {
+        zeichenflaeche.clearRect(bt.getX(), bt.getY(), bt.getWidth(), bt.getHeight());
+        bt.draw(zeichenflaeche);
     }
 
-    public Point[] zeichneNewGame() {
-        Font f = new Font("serif", Font.BOLD, 20);
-        zeichenflaeche.setFont(f);
-        int x = zeichenflaeche.getFontMetrics().stringWidth("Neues Spiel");
-
-        int y = 50;
-        zeichenflaeche.drawString("Neues Spiel", spielfeldX / 2 - x / 2, spielfeldY / 2 + y);
-        zeichenflaeche.drawRect(spielfeldX / 2 - x / 2 - 5, spielfeldY / 2 + y - zeichenflaeche.getFontMetrics().getHeight() / 2 - 5, x + 10, zeichenflaeche.getFontMetrics().getHeight());
-
-        Point[] erg = new Point[2];
-        erg[0] = new Point(spielfeldX / 2 - x / 2 - 5, spielfeldY / 2 + y - zeichenflaeche.getFontMetrics().getHeight() / 2 - 5);
-        erg[1] = new Point(erg[0].x + x + 10, erg[0].y + zeichenflaeche.getFontMetrics().getHeight());
-
-        return erg;
-    }
-    public void zeichneNewGame(CButton ng){
-        ng.draw(zeichenflaeche);
-    }
-
-    public void zeichneExit(CButton e){
-        e.draw(zeichenflaeche);
-    }
-    
     public void zeichneStartUp() {
         Graphics2D g2d = (Graphics2D) zeichenflaeche;
         ImageIcon tb_src = new ImageIcon("resources//images//Titelbild.png");
@@ -244,6 +219,21 @@ public class Zeichencontrol {
         double y = img.getHeight(null);
         double x = img.getWidth(null);
         g2d.drawImage(img, spielfeldX / 4, 200, spielfeldX / 2, (int) (y / x * spielfeldX / 2), null);
+    }
+
+    public void zeichnePauseMessage() {
+        zeichenflaeche.setColor(Color.WHITE);
+        Font f = new Font("serif", Font.BOLD, 50);
+        zeichenflaeche.setFont(f);
+        int x = zeichenflaeche.getFontMetrics().stringWidth("PAUSE");
+        zeichenflaeche.drawString("PAUSE", spielfeldX / 2 - x / 2, 100);
+    }
+
+    public void repaintSpielfeld() {
+        this.zeichneFeld(cnt.getSpielfeld());
+        this.zeichneZiel(cnt.getAktuelleZiel());
+        this.zeichnePunkte(cnt.getPunkte(), cnt.getSpielfeld());
+        this.zeichneSchlange(cnt.getSchlange());
     }
 
     public void zeichneTonIcon(Point pt) {

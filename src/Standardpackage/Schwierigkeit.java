@@ -10,7 +10,7 @@ import javax.swing.Timer;
 
 /**
  *
- * @author Jan
+ * @author Jan Koschke
  */
 public class Schwierigkeit {
     

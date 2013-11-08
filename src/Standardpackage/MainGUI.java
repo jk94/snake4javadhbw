@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
  */
 /**
  *
- * @author Philip
+ * @author Jan Koschke
  */
 public class MainGUI extends javax.swing.JFrame {
 
@@ -25,7 +25,6 @@ public class MainGUI extends javax.swing.JFrame {
         while (cnt.equals(null)) {
 
         }
-        //cnt.init();
     }
 
     /**
@@ -110,6 +109,7 @@ public class MainGUI extends javax.swing.JFrame {
         btn_Start.setVisible(false);
 
         cnt.init();
+
         cnt.getZeichenControl().zeichneStartUp();
     }//GEN-LAST:event_btn_StartActionPerformed
 
@@ -121,6 +121,7 @@ public class MainGUI extends javax.swing.JFrame {
         EnumDirection dir = null;
         char eing = evt.getKeyChar();
         eing = Character.toLowerCase(eing);
+
         //System.out.println(eing);
         switch (eing) {
             case 'w':
@@ -135,6 +136,11 @@ public class MainGUI extends javax.swing.JFrame {
             case 'd':
                 dir = EnumDirection.RECHTS;
                 break;
+            case 'p':
+                cnt.pauseCommand();
+                break;
+            case 'r':
+                cnt.restart();
             default:
                 break;
         }
@@ -157,11 +163,11 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_canvas1KeyTyped
 
     private void canvas1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_canvas1FocusGained
-        cnt.start();
+        //cnt.start();
     }//GEN-LAST:event_canvas1FocusGained
 
     private void canvas1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_canvas1FocusLost
-        cnt.pause();
+        cnt.pauseCommand();
     }//GEN-LAST:event_canvas1FocusLost
 
     private void canvas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MouseClicked

@@ -1,6 +1,7 @@
 package Standardpackage;
 
 
+import Connection.Connect;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
@@ -11,7 +12,7 @@ import javax.swing.Timer;
  */
 /**
  *
- * @author Jan
+ * @author Jan Koschke
  */
 public class Punkte {
 
@@ -77,6 +78,6 @@ public class Punkte {
     }
     
     private void sendPunkte(){
-        
+        //Connect con = new Connect();
     }
 }

@@ -11,7 +11,7 @@ import java.awt.Graphics;
 
 /**
  *
- * @author User
+ * @author Jan Koschke
  */
 public class CButton {
     

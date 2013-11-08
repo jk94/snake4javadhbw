@@ -6,7 +6,7 @@ package Enums;
 
 /**
  *
- * @author Jan
+ * @author Jan Koschke
  */
 public enum EnumSchwierigkeit {
 

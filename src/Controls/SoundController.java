@@ -14,7 +14,7 @@ import javax.sound.sampled.DataLine;
 
 /**
  *
- * @author User
+ * @author Jan Koschke
  */
 public class SoundController {
 

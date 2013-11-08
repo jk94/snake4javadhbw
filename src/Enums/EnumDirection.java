@@ -6,7 +6,7 @@ package Enums;
  */
 /**
  *
- * @author Philip
+ * @author Jan Koschke
  */
 public enum EnumDirection {
 
