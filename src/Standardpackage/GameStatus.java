@@ -32,10 +32,10 @@ public class GameStatus {
         return GS;
     }
 
-    public void setGameStatus(Enums.EnumGameStatus gs){
+    public void setGameStatus(Enums.EnumGameStatus gs) {
         this.GS = gs;
     }
-    
+
     public void clicked(java.awt.event.MouseEvent evt) {
         if (evt.getButton() == 1) {
             switch (GS) {
@@ -108,7 +108,7 @@ public class GameStatus {
                             System.exit(0);
                             break;
                         }
-                        
+
                     }
                     if (!themewechseln.equals(null)) {
                         if (themewechseln.clicked(evt)) {
@@ -153,12 +153,11 @@ public class GameStatus {
     public void GameOver() {
         cnt.stop();
         cnt.getZeichenControl().zeichneGameOverMessage(cnt.getPunkte());
-        cnt.getPunkte().gameOver();
         GS = EnumGameStatus.GAMEOVER;
         neuesSpiel = getNeuesSpielButton();
         exit = getExitButton();
         themewechseln = getThemeWechsel();
-
+        cnt.getPunkte().gameOver();
         cnt.getZeichenControl().zeichneButton(themewechseln);
         cnt.getZeichenControl().zeichneButton(neuesSpiel);
         cnt.getZeichenControl().zeichneButton(exit);

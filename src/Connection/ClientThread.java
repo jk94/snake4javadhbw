@@ -16,6 +16,7 @@ public class ClientThread extends Thread {
     public ClientThread(String hostname, int port, SharedValue sharedValue) {
         try {
             this.connection = new Socket(hostname, port);
+            System.out.println("Verbunden");
             this.read_input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             this.write_output = new PrintWriter(connection.getOutputStream(), true);
             this.random = new SecureRandom();
@@ -37,9 +38,9 @@ public class ClientThread extends Thread {
             write_output.println(calculateResulut(base, prime, exponent));
             write_output.flush();
 
-            System.out.println("Primzahl:" + prime.toString() + "\nBasis:" + base.toString() + "\nExponent:" + exponent + "\nResultServer:" + result_server);
+            //System.out.println("Primzahl:" + prime.toString() + "\nBasis:" + base.toString() + "\nExponent:" + exponent + "\nResultServer:" + result_server);
             BigInteger encryptKey = calculateResulut(result_server, prime, exponent);
-            System.out.println("Encryptkey:" + encryptKey.toString());
+            //System.out.println("Encryptkey:" + encryptKey.toString());
             sharedValue.setEncryptionKey(encryptKey);
 
         } catch (Exception e) {
@@ -64,10 +65,10 @@ public class ClientThread extends Thread {
     }
 
     public BigInteger calculateResulut(BigInteger base, BigInteger prime, int exponent) {
-        System.out.println("Start Calculating");
+        //System.out.println("Start Calculating");
         BigInteger result = base.pow(exponent);
         result = result.mod(prime);
-        System.out.println("finished");
+        //System.out.println("finished");
         return result;
 
     }
