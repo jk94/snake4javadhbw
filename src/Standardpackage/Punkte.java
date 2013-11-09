@@ -2,6 +2,7 @@ package Standardpackage;
 
 
 import Connection.Connect;
+import Connection.Message;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
@@ -79,5 +80,6 @@ public class Punkte {
     
     private void sendPunkte(){
         //Connect con = new Connect();
+        Connect c = new Connect(new Message("Jan", "12345", punktezaehler));
     }
 }
