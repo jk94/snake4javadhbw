@@ -50,8 +50,7 @@ public class Control {
         tcnt = new ThemeControl("resources//images//theme");
         zcnt = new Zeichencontrol(zeichenflaeche, pixelgroese, spielfeldX, spielfeldY, tcnt.getAktuellesTheme(), this);
         scnt = new SoundController(this);
-        System.out.println(AES.encrypt("A".getBytes(), "12345".getBytes()));
-//System.out.println(AES.encrypt(new Message("Jan", "123", 10).makeMessage().getBytes(), "ABC".getBytes()));
+
     }
 
     public void init() {
@@ -207,7 +206,7 @@ public class Control {
     public void pauseCommand(boolean set) {
         if (set) {
             gamestatus.Pause();
-        }else{
+        } else {
             gamestatus.resume();
         }
     }

@@ -81,7 +81,7 @@ public class Punkte {
 
     private void sendPunkte() {
         //Connect con = new Connect();
-        Connect c = new Connect("192.168.1.106", 9876, new Message("Jan", "12345", punktezaehler));
+        Connect c = new Connect("127.0.0.1", 9876, new Message("Jan", "12345", punktezaehler));
         c.start();
     }
 }
