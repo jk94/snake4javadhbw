@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Connection;
 
 import Connection.Krypter.Hasher;
@@ -22,13 +21,16 @@ public class Message {
         this.passwort = Hasher.ToMD5(passwort);
         this.punkte = punkte;
     }
-    
-    public String makeMessage(){
+
+    public String makeMessage() {
         String erg = "";
-        erg = "highscore = { \"benutzer\" : \"" + benutzer + "\", \"passwort\" : \"" + passwort + "\", \"punkte\" : "+ punkte + " };";
-        
+        erg = "highscore = { \"benutzer\" : \"" + benutzer + "\", \"passwort\" : \"" + passwort + "\", \"punkte\" : " + punkte + " };";
+
+
+
+
+
         System.out.println(erg);
         return erg;
     }
-
 }

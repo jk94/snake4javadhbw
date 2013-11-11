@@ -128,11 +128,15 @@ public class GameStatus {
     }
 
     private void clickTestTon(java.awt.event.MouseEvent evt) {
-        Feld[][] Spielfeld = cnt.getSpielfeld();
-        Point pt = new Point(Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getX(), Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getY());
-        if (evt.getX() >= pt.x && evt.getX() <= pt.x + cnt.getFeldgroese()
-                && evt.getY() >= pt.y && evt.getY() <= pt.y + cnt.getFeldgroese()) {
-            cnt.toggleTon();
+        try {
+            Feld[][] Spielfeld = cnt.getSpielfeld();
+            Point pt = new Point(Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getX(), Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getY());
+            if (evt.getX() >= pt.x && evt.getX() <= pt.x + cnt.getFeldgroese()
+                    && evt.getY() >= pt.y && evt.getY() <= pt.y + cnt.getFeldgroese()) {
+                cnt.toggleTon();
+            }
+        } catch (Exception ex) {
+
         }
     }
 

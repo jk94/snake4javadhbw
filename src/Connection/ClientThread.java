@@ -38,20 +38,21 @@ public class ClientThread extends Thread {
             write_output.println(calculateResulut(base, prime, exponent));
             write_output.flush();
 
-            //System.out.println("Primzahl:" + prime.toString() + "\nBasis:" + base.toString() + "\nExponent:" + exponent + "\nResultServer:" + result_server);
+            System.out.println("Primzahl:" + prime.toString() + "\nBasis:" + base.toString() + "\nExponent:" + exponent + "\nResultServer:" + result_server);
             BigInteger encryptKey = calculateResulut(result_server, prime, exponent);
-            //System.out.println("Encryptkey:" + encryptKey.toString());
+            System.out.println("Encryptkey:" + encryptKey.toString());
             sharedValue.setEncryptionKey(encryptKey);
-
+            write_output.close();
+            read_input.close();
         } catch (Exception e) {
 
         }
     }
 
-    public Socket getSocket(){
+    public Socket getSocket() {
         return connection;
     }
-    
+
     public int getExponent(BigInteger prime) {
         int result = 10000;
         prime = prime.subtract(new BigInteger("-2"));

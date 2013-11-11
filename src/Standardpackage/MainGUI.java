@@ -18,6 +18,7 @@ public class MainGUI extends javax.swing.JFrame {
      * Creates new form MainGUI
      */
     private Control cnt = null;
+    private boolean startup = true;
 
     public MainGUI() {
         initComponents();
@@ -109,8 +110,8 @@ public class MainGUI extends javax.swing.JFrame {
         btn_Start.setVisible(false);
 
         cnt.init();
-
         cnt.getZeichenControl().zeichneStartUp();
+        startup = false;
     }//GEN-LAST:event_btn_StartActionPerformed
 
     private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
@@ -167,7 +168,7 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_canvas1FocusGained
 
     private void canvas1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_canvas1FocusLost
-        cnt.pauseCommand();
+
     }//GEN-LAST:event_canvas1FocusLost
 
     private void canvas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MouseClicked
