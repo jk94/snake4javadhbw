@@ -157,11 +157,11 @@ public class GameStatus {
         neuesSpiel = getNeuesSpielButton();
         exit = getExitButton();
         themewechseln = getThemeWechsel();
-        cnt.getPunkte().gameOver();
+
         cnt.getZeichenControl().zeichneButton(themewechseln);
         cnt.getZeichenControl().zeichneButton(neuesSpiel);
         cnt.getZeichenControl().zeichneButton(exit);
-
+        cnt.getPunkte().gameOver();
     }
 
     public void startup() {

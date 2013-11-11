@@ -73,15 +73,14 @@ public class Punkte {
     }
 
     public void gameOver() {
-        if (JOptionPane.showConfirmDialog(null, "Willst du deine Punkte an die Highscore übermitteln?", "Highscore", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0) {
+        //if (JOptionPane.showConfirmDialog(null, "Willst du deine Punkte an die Highscore übermitteln?", "Highscore", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0) {
             sendPunkte();
-        }
+        //}
 
     }
 
     private void sendPunkte() {
-        //Connect con = new Connect();
-        Connect c = new Connect("192.168.1.106", 9876, new Message("Jan", "12345", punktezaehler));
+        Connect c = new Connect("127.0.0.1", 9876, new Message("Jan", "12345", punktezaehler));
         c.start();
     }
 }
