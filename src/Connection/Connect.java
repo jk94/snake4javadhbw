@@ -44,7 +44,7 @@ public class Connect extends Thread {
         while (key == null) {
             key = encryptionKey.getEncryptionKey();
         }
-        System.out.println(key);
+        System.out.println("This is ma key" + key);
         try {
             PrintWriter pw = new PrintWriter(c_thread.getSocket().getOutputStream());
             System.out.println(ByteArrayToString(AES.encrypt(msg.makeMessage().getBytes(), key.toByteArray())));
