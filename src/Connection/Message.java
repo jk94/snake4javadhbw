@@ -7,6 +7,7 @@
 package Connection;
 
 import Connection.Krypter.Hasher;
+import com.fasterxml.jackson.core.*;
 
 /**
  *
@@ -26,6 +27,10 @@ public class Message {
     public String makeMessage(){
         String erg = "";
         erg = "highscore = { \"benutzer\" : \"" + benutzer + "\", \"passwort\" : \"" + passwort + "\", \"punkte\" : "+ punkte + " };";
+
+        
+        
+        
         
         System.out.println(erg);
         return erg;

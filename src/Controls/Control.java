@@ -16,12 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
-
 /**
  *
  * @author Jan Koschke
  */
-
 public class Control {
 
     private MainGUI mgui;
@@ -203,6 +201,14 @@ public class Control {
                 }
             }
 
+        }
+    }
+
+    public void pauseCommand(boolean set) {
+        if (set) {
+            gamestatus.Pause();
+        }else{
+            gamestatus.resume();
         }
     }
 
