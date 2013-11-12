@@ -1,5 +1,6 @@
 package Connection;
 
+import Connection.Krypter.AES;
 import java.math.BigInteger;
 import java.net.*;
 import java.security.SecureRandom;
@@ -12,15 +13,18 @@ public class ClientThread extends Thread {
     PrintWriter write_output;
     SecureRandom random;
     SharedValue sharedValue;
+    private BigInteger key = null;
+    private Message msg;
 
-    public ClientThread(String hostname, int port, SharedValue sharedValue) {
+    public ClientThread(Socket con, SharedValue sharedValue, Message msg) {
         try {
-            this.connection = new Socket(hostname, port);
+            this.connection = con;
             System.out.println("Verbunden");
             this.read_input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             this.write_output = new PrintWriter(connection.getOutputStream(), true);
             this.random = new SecureRandom();
             this.sharedValue = sharedValue;
+            this.msg = msg;
         } catch (Exception e) {
 
         }
@@ -38,14 +42,41 @@ public class ClientThread extends Thread {
             write_output.println(calculateResulut(base, prime, exponent));
             write_output.flush();
 
-            System.out.println("Primzahl:" + prime.toString() + "\nBasis:" + base.toString() + "\nExponent:" + exponent + "\nResultServer:" + result_server);
+            //System.out.println("Primzahl:" + prime.toString() + "\nBasis:" + base.toString() + "\nExponent:" + exponent + "\nResultServer:" + result_server);
             BigInteger encryptKey = calculateResulut(result_server, prime, exponent);
             System.out.println("Encryptkey:" + encryptKey.toString());
             sharedValue.setEncryptionKey(encryptKey);
-            write_output.close();
-            read_input.close();
+
         } catch (Exception e) {
 
+        }
+
+        while (key == null) {
+            key = sharedValue.getEncryptionKey();
+        }
+        System.out.println(key);
+        try {
+            System.out.println("1");
+            System.out.println(ByteArrayToString(AES.encrypt(msg.makeMessage().getBytes(), key.toByteArray())));
+            write_output.println(ByteArrayToString(AES.encrypt(msg.makeMessage().getBytes(), key.toByteArray())));
+            write_output.flush();
+
+            while (true) {
+                String input = read_input.readLine();
+                System.out.println(input);
+                if (!input.equals("")) {
+                    byte[] ent_intput = AES.decrypt(input.getBytes(), key.toByteArray());
+                    if (ByteArrayToString(ent_intput).equals("ok")) {
+                        System.out.println("ende");
+                        connection.close();
+                        break;
+                    }
+                }
+            }
+            write_output.close();
+            read_input.close();
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
         }
     }
 
@@ -74,4 +105,7 @@ public class ClientThread extends Thread {
 
     }
 
+    private String ByteArrayToString(byte[] bt) {
+        return new String(bt);
+    }
 }

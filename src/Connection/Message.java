@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Connection;
 
 import Connection.Krypter.Hasher;
-import com.fasterxml.jackson.core.*;
 
 /**
  *
@@ -23,17 +21,14 @@ public class Message {
         this.passwort = Hasher.ToMD5(passwort);
         this.punkte = punkte;
     }
-    
-    public String makeMessage(){
-        String erg = "";
-        erg = "highscore = { \"benutzer\" : \"" + benutzer + "\", \"passwort\" : \"" + passwort + "\", \"punkte\" : "+ punkte + " };";
 
-        
-        
-        
-        
+    public String makeMessage() {
+        String erg = "";
+        erg = "benutzer:\"" + benutzer + "\",passwort:\"" + passwort + "\",punkte:\"" + punkte + "\"";
+        String erg2 = erg + ",\"" + Hasher.ToMD5(erg) + "\"";
         System.out.println(erg);
-        return erg;
+        System.out.println(erg2);
+        return erg2;
     }
 
 }

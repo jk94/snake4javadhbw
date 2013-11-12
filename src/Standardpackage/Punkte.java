@@ -75,6 +75,8 @@ public class Punkte {
     public void gameOver() {
         if (JOptionPane.showConfirmDialog(null, "Willst du deine Punkte an die Highscore übermitteln?", "Highscore", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0) {
             sendPunkte();
+        }else{
+            System.out.println(new Message("Jan", "12345", punktezaehler).makeMessage());
         }
 
     }
