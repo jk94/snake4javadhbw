@@ -41,7 +41,9 @@ public class Connect extends Thread {
 
     public void run() {
         SharedValue encryptionKey = new SharedValue();
+
         Socket connection = null;
+
         try {
             connection = new Socket(ip, port);
         } catch (IOException ex) {
@@ -52,9 +54,7 @@ public class Connect extends Thread {
 
             c_thread.start();
 
-            
         }
     }
 
-    
 }

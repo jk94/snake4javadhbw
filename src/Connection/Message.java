@@ -30,5 +30,4 @@ public class Message {
         System.out.println(erg2);
         return erg2;
     }
-
 }
