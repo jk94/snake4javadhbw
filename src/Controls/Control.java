@@ -72,7 +72,7 @@ public class Control {
     public void toggleTon() {
         this.ton = !this.ton;
         zcnt.zeichneTonIcon(new Point(Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getX(), Spielfeld[Spielfeld.length - 1][Spielfeld.length - 1].getY()));
-        System.out.println("tonwechsel");
+        System.out.println(this.getClass().toString() + ": Tonwechsel");
     }
 
     public int getFeldgroese() {

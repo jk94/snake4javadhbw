@@ -26,8 +26,7 @@ public class Message {
         String erg = "";
         erg = "benutzer:\"" + benutzer + "\",passwort:\"" + passwort + "\",punkte:\"" + punkte + "\"";
         String erg2 = erg + ",\"" + Hasher.ToMD5(erg) + "\"";
-        System.out.println(erg);
-        System.out.println(erg2);
         return erg2;
     }
+
 }

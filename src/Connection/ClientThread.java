@@ -51,33 +51,7 @@ public class ClientThread extends Thread {
 
         }
 
-        while (key == null) {
-            key = sharedValue.getEncryptionKey();
-        }
-        System.out.println(key);
-        try {
-            System.out.println("1");
-            System.out.println(ByteArrayToString(AES.encrypt(msg.makeMessage().getBytes(), key.toByteArray())));
-            write_output.println(ByteArrayToString(AES.encrypt(msg.makeMessage().getBytes(), key.toByteArray())));
-            write_output.flush();
-
-            while (true) {
-                String input = read_input.readLine();
-                System.out.println(input);
-                if (!input.equals("")) {
-                    byte[] ent_intput = AES.decrypt(input.getBytes(), key.toByteArray());
-                    if (ByteArrayToString(ent_intput).equals("ok")) {
-                        System.out.println("ende");
-                        connection.close();
-                        break;
-                    }
-                }
-            }
-            write_output.close();
-            read_input.close();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
+        
     }
 
     public Socket getSocket() {
@@ -105,7 +79,5 @@ public class ClientThread extends Thread {
 
     }
 
-    private String ByteArrayToString(byte[] bt) {
-        return new String(bt);
-    }
+    
 }
