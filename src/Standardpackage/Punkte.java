@@ -83,7 +83,7 @@ public class Punkte {
 
     private void sendPunkte() {
 
-        Connect c = new Connect("127.0.0.1", 9876, new Message("Jan", "12345", punktezaehler));
+        Connect c = new Connect("127.0.0.1", 9876, new Message("jankoschkegooglemail.com", "ichmachemal ein ganz langes passwort damit der string auch schön lange wird", punktezaehler));
         c.start();
     }
 }

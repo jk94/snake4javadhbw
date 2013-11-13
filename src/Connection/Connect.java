@@ -9,6 +9,7 @@ import Connection.Krypter.AES;
 import Connection.Krypter.Krypt;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.Key;
 import java.io.PrintWriter;
@@ -45,64 +46,84 @@ public class Connect extends Thread {
 
     public void run() {
         //SharedValue encryptionKey = new SharedValue();
-        Socket connection = null;
+        Socket socket = null;
+
         try {
-            connection = new Socket(ip, port);
+
+            socket = new Socket(ip, port);
         } catch (IOException ex) {
             Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (connection != null) {
-            /*c_thread = new ClientThread(connection, encryptionKey, msg);
-             c_thread.start();
+        if (socket != null) {
 
-             while (key == null) {
-             key = encryptionKey.getEncryptionKey();
-             }
-             System.out.println(key);
-            
-             System.out.println("5620731".getBytes().length);
-             String thekey = key.toString();
-             while(thekey.getBytes().length<32){
-             thekey = thekey + key.toString();
-             }
-             System.out.println(thekey);
-             System.out.println(thekey.getBytes().length);
-             */
             try {
-                KeyGenerator keygen = KeyGenerator.getInstance("AES");
-                keygen.init(128);
-                SecretKey aesKey = keygen.generateKey();
-                PrintWriter write_output = new PrintWriter(connection.getOutputStream());
-                write_output.println(aesKey);
-                
+                InputStream fis = socket.getInputStream();
+                BufferedReader read_input;
+
+
+                /*System.out.println("Länge lesen...");
+                 while (true) {
+                 input = read_input.readLine();
+                 if (input != null) {
+                        
+                 break;
+                 }
+                 }
+                 System.out.println("Länge gelesen...");*/
+                byte[] encodedKey = new byte[16];
+
+                fis.read(encodedKey);
+                System.out.println("Key gelesen...");
+
+                // generiere Key
+                SecretKey aesKey = new SecretKeySpec(encodedKey, "AES");
+
+                System.out.println("Key erstellt...");
                 Connection.Krypter.Krypt crypt = new Krypt(aesKey, "AES");
-                write_output = new PrintWriter(crypt.encryptOutputStream(connection.getOutputStream()));
 
-                write_output.println(msg.makeMessage());
+                PrintWriter write_output = new PrintWriter(socket.getOutputStream());
+                System.out.println("Ausgabe geöffnet...");
+                read_input = new BufferedReader(new InputStreamReader(fis));
+                System.out.println("Eingabe geöffnet...");
+                String vermsg = crypt.encrypt(msg.makeMessage());
+                System.out.println(vermsg.length());
+                System.out.println(vermsg);
+                write_output.println(vermsg.length());
+                write_output.println(vermsg);
                 write_output.flush();
+                System.out.println("Message geschickt...");
 
-                BufferedReader read_input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                System.out.println("Input lesen...");
+                read_input.readLine();
+                String input = read_input.readLine();
+
+                int leng = Integer.parseInt(input);
+                input = "";
+                int breaks=0;
                 while (true) {
-                    String input = read_input.readLine();
-                    if (!input.equals("")) {
-                        byte[] ent_intput = AES.decrypt(input.getBytes(), key.toByteArray());
-                        if (ByteArrayToString(ent_intput).equals("ok")) {
-                            System.out.println("ende");
-                            connection.close();
-                            break;
+                    input = input + read_input.readLine();
+                    if (input.length() >= leng - breaks) {
+                        if (input != null) {
+                            System.out.println(input);
+                            input = crypt.decrypt(input);
+                            System.out.println(input);
+                            if (input.equals("ok")) {
+                                break;
+                            }
                         }
+                    } else {
+                        input = input + "\n";
+                        breaks++;
                     }
                 }
                 write_output.close();
                 read_input.close();
+                socket.close();
+                System.out.println("Connection closed");
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
             }
 
         }
-    }
-
-    private String ByteArrayToString(byte[] bt) {
-        return new String(bt);
     }
 }
